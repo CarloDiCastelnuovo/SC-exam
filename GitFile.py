@@ -84,3 +84,29 @@ ax[0].set_title("Alfa Values")
 ax[1].set_title("Beta Values")
 ax[2].set_title("Averaged Alfa Values")
 ax[3].set_title("Averaged Beta Values")
+
+from sklearn import cluster
+from sklearn.mixture import GaussianMixture
+
+nc = 2
+                            #K-MEANS
+
+km_alfa = cluster.KMeans(n_clusters = nc).fit(data.iloc[:, 2])
+km_beta = cluster.KMeans(n_clusters = nc).fit(data.iloc[:, 3])
+
+labels_alfa = km_alfa.labels_ 
+labels_beta = km_beta.labels_ 
+
+km_dfa = pd.DataFrame(labels_alfa)
+km_dfb = pd.DataFrame(labels_beta)
+
+                            #GMM
+
+gmm_alfa = GaussianMixture(n_components=nc).fit(data.iloc[:, 2:3])
+gmm_beta = GaussianMixture(n_components=nc).fit(data.iloc[:, 3:4])
+
+lab_alfa = gmm_alfa.predict(data.iloc[:, 2:3])
+lab_beta = gmm_beta.predict(data.iloc[:, 3:4])
+
+gmm_dfa = pd.DataFrame(lab_alfa)
+gmm_dfb = pd.DataFrame(lab_beta)
