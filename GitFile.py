@@ -13,10 +13,14 @@ from sklearn.mixture import GaussianMixture
 
     #Import the data from excel (or any other) and get the DataFrame 
 
-data = pd.read_excel("c:/Users/carlausss/Desktop/Prova.xlsx")
-data = data.dropna()
-data = pd.DataFrame(data)
+#data = pd.read_excel("c:/Users/carlausss/Desktop/Prova.xlsx")
+#data = data.dropna()
+#data = pd.DataFrame(data)
 
+            #Create random DataFrame
+
+a = np.random.randn(5,4)
+data = pd.DataFrame(a, columns=['x','y','Alfa','Beta'])
 
         #Define the functions to get close points
 
@@ -54,21 +58,21 @@ gmm_dfb = pd.DataFrame(lab_beta)
  
     #Create empty matrices of the correct lenght to be filled
 
-a = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+a = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 a.fill(np.nan)
-b = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+b = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 b.fill(np.nan)
-c = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+c = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 c.fill(np.nan)
-d = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+d = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 d.fill(np.nan)
-e = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+e = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 e.fill(np.nan)
-f = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+f = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 f.fill(np.nan)
-g = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+g = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 g.fill(np.nan)
-h = np.empty(((max(data.iloc[:,0])) + 1,(max(data.iloc[:,1])) + 1))
+h = np.empty((int((max(data.iloc[:,0]))) + 1,int((max(data.iloc[:,1]))) + 1))
 h.fill(np.nan)
 
 
