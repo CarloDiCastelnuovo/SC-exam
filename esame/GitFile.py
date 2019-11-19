@@ -64,16 +64,13 @@ def image(df):
         
     j = 0
 
-    for j in tqdm(range(90)):
+    for j in tqdm(range(len(data))):
         
         xp = data.iloc[j,0]             #Positions on the matrix
         yp = data.iloc[j,1] 
 
-        alfa = data.iloc[j,2]            #Values 
-        beta = data.iloc[j,3]
-
-        m[0][int(xp), int(yp)] = alfa          #Fill the frist two matrices 
-        m[1][int(xp), int(yp)] = beta
+        m[0][int(xp), int(yp)] = data.iloc[j,2]           #Fill the frist two matrices 
+        m[1][int(xp), int(yp)] = data.iloc[j,3] 
     
         parda = get_close_points(data, xp, yp, radius = 2)
                                 #Get the close points for every (xp,yp) couple 
@@ -88,20 +85,26 @@ def image(df):
         m[2][int(xp), int(yp)] = alfa_med   #Fill the matrices with averaged values
         m[3][int(xp), int(yp)] = beta_med
        
-        kma, kmb = km(data, nc=2)
-        gmma, gmmb = gmm(data, nc=2)
+    kma, kmb = km(data, nc=2)
+    gmma, gmmb = gmm(data, nc=2)
     
-        kma = pd.DataFrame(kma)
-        kmb = pd.DataFrame(kmb)
+    kma = pd.DataFrame(kma)
+    kmb = pd.DataFrame(kmb)
     
-        gmma = pd.DataFrame(gmma)
-        gmmb = pd.DataFrame(gmmb)
+    gmma = pd.DataFrame(gmma)
+    gmmb = pd.DataFrame(gmmb)
     
-        m[4][int(xp), int(yp)] = kma.iloc[j,0]     #Clustering matrices 
-        m[5][int(xp), int(yp)] = kmb.iloc[j,0]
+    l=0
+    
+    for l in tqdm(range(len(data))):
+        xp = data.iloc[l,0] 
+        yp = data.iloc[l,1] 
 
-        m[6][int(xp), int(yp)] = gmma.iloc[j,0]
-        m[7][int(xp), int(yp)] = gmmb.iloc[j,0]
+        m[4][int(xp), int(yp)] = kma.iloc[l,0]     #Clustering matrices 
+        m[5][int(xp), int(yp)] = kmb.iloc[l,0]
+
+        m[6][int(xp), int(yp)] = gmma.iloc[l,0]
+        m[7][int(xp), int(yp)] = gmmb.iloc[l,0]
             
     return m
    
