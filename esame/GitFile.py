@@ -4,10 +4,11 @@ import matplotlib.pyplot as plt
 
 from sklearn import cluster
 from sklearn.mixture import GaussianMixture
+from tqdm import tqdm
 
     #Import the data from excel (or any other) and get the DataFrame 
 
-data = pd.read_excel("c:/Users/carlausss/Desktop/Prova.xlsx")
+data = pd.read_excel("c:/Users/carlausss/Desktop/Test.xlsx")
 data = data.dropna()
 data = pd.DataFrame(data)
             #Create random DataFrame
@@ -52,24 +53,24 @@ def gmm(df, nc = 2):
 def image(df):
 
     m = []  
-    maxx=max(data.iloc[:,0])
-    maxy=max(data.iloc[:,1])
+    max_x=max(data.iloc[:,0])+1
+    max_y=max(data.iloc[:,1])+1
 
     for i in range(8):
-        mat = np.empty((int(maxx),int(maxy)))
+        mat = np.empty((max_x,max_y))
         mat.fill(np.nan)        
         
         m.append(mat)
         
-        i = 0
+    j = 0
 
-    while i < len(data):
+    for j in tqdm(range(90)):
         
-        xp = data.iloc[i,0]             #Positions on the matrix
-        yp = data.iloc[i,1] 
+        xp = data.iloc[j,0]             #Positions on the matrix
+        yp = data.iloc[j,1] 
 
-        alfa = data.iloc[i,2]            #Values 
-        beta = data.iloc[i,3]
+        alfa = data.iloc[j,2]            #Values 
+        beta = data.iloc[j,3]
 
         m[0][int(xp), int(yp)] = alfa          #Fill the frist two matrices 
         m[1][int(xp), int(yp)] = beta
@@ -96,15 +97,13 @@ def image(df):
         gmma = pd.DataFrame(gmma)
         gmmb = pd.DataFrame(gmmb)
     
-        m[4][int(xp), int(yp)] = kma.iloc[i,0]     #Clustering matrices 
-        m[5][int(xp), int(yp)] = kmb.iloc[i,0]
+        m[4][int(xp), int(yp)] = kma.iloc[j,0]     #Clustering matrices 
+        m[5][int(xp), int(yp)] = kmb.iloc[j,0]
 
-        m[6][int(xp), int(yp)] = gmma.iloc[i,0]
-        m[7][int(xp), int(yp)] = gmmb.iloc[i,0]
-    
-        i = i + 1
-        
-        return m
+        m[6][int(xp), int(yp)] = gmma.iloc[j,0]
+        m[7][int(xp), int(yp)] = gmmb.iloc[j,0]
+            
+    return m
    
 def print_image(m):           #Print subplots with all the matrices
     
@@ -118,7 +117,7 @@ def print_image(m):           #Print subplots with all the matrices
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
     
-        images = plt.imshow(m[i])
+        plt.imshow(m[i])
 
 
     ax[0].set_title("Alfa Values")
@@ -130,6 +129,4 @@ def print_image(m):           #Print subplots with all the matrices
     ax[6].set_title("GMM Cluster on Alfa Values")
     ax[7].set_title("GMM Cluster on Beta Values")
     
-    return images
-
 print_image(image(data))
