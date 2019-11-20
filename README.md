@@ -3,12 +3,14 @@
 The aim of this project is to visualize whatever DataFrame in which I have the first two columns filled with position data ('x', 'y') and the rest of them filled with some values I want to visualize. 
 To use this code is necessary to define a parameter called **col** and assign to it the number of data columns we want to analize.
 ```
-col = number_of_data_columns
+data = pd.DataFrame(df, columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
+col = 3
 ```
 Furthermore the code estimate the close points for every pixel and compute the mean value of it, generating smoother images.
-
 The last step is a clustering phase in which the code estimate for every pixel the belonging to one or another cluster, with two different metodologies: the K-means and the Guassian Mixture Model (GMM). This is performed on both original and averaged values, to compare them.
 In the end there will be 6 different subplots for every data columns.
+
 
 # Import
 To run the code we need 5 indispensable libraries and an optional one:
