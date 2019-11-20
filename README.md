@@ -56,7 +56,7 @@ The function to collect the labels for GMM clustering.
 
 It returns two lists of 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters.
 
-## 4. image(df)
+## 4. images(df)
 This is the main function of the code, it takes only the DataFrame as an argument, but is able to build the 12 matrices I want to visualize. It is possible to better explain its functioning by dividing the operations into 5 steps:
 - I: it creates a list of 12 empty matrices, of the lenght of the data and fills them with "nan"; it is important that they are filled        like this and not with zeros as this could be a value of my data and I want to visualize it.
 - II: with a for cicle the function takes the coordinates of every pixel and creates the first two images filling the matrices with the       corresponding value.
