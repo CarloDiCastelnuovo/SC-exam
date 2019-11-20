@@ -8,13 +8,9 @@ from tqdm import tqdm
 
     #Import the data from excel (or any other) and get the DataFrame 
 
-data = pd.read_excel("c:/Users/carlausss/Desktop/Test.xlsx")
+data = pd.read_excel("c:/Users/carlausss/Desktop/Prova.xlsx")
 data = data.dropna()
 data = pd.DataFrame(data)
-            #Create random DataFrame
-
-#a = np.random.randn(100,4)
-#data = pd.DataFrame(a, columns=['x','y','Alfa','Beta'])
 
         #Define the functions to get close points
 
@@ -47,16 +43,15 @@ def gmm(df, nc = 2):
 
     return lab_alfa, lab_beta
 
- 
-    #Create empty matrices of the correct lenght to be filled
 
-def image(df):
+def images(df):
 
     m = []  
     max_x=max(data.iloc[:,0])+1
     max_y=max(data.iloc[:,1])+1
 
-    for i in range(8):
+    for i in range(12):    #Create empty matrices of the correct lenght to be filled
+
         mat = np.empty((max_x,max_y))
         mat.fill(np.nan)        
         
@@ -73,26 +68,35 @@ def image(df):
         m[1][int(xp), int(yp)] = data.iloc[j,3] 
     
         parda = get_close_points(data, xp, yp, radius = 2)
-                                #Get the close points for every (xp,yp) couple 
-        al = parda.iloc[:,2]       #and collect their Alfa and Beta values in 2 different
-        bet = parda.iloc[:,3]      #pandas DataFrame
-        df_al = pd.DataFrame(al)
-        df_bet = pd.DataFrame(bet)
+                                    #Get the close points for every (xp,yp) couple 
+        parda = pd.DataFrame(parda)
+        
+        al = parda.iloc[:,2]        #and collect their Alfa and Beta values in 2 different
+        bet = parda.iloc[:,3]       #pandas DataFrame
 
-        alfa_med = df_al.mean()          #Compute the mean of both the DataFrames
-        beta_med= df_bet.mean()
+        al = al.mean()          #Compute the mean of both the DataFrames
+        bet = bet.mean()
     
-        m[2][int(xp), int(yp)] = alfa_med   #Fill the matrices with averaged values
-        m[3][int(xp), int(yp)] = beta_med
+        m[2][int(xp), int(yp)] = al   #Fill the matrices with averaged values
+        m[3][int(xp), int(yp)] = bet
        
-    kma, kmb = km(data, nc=2)
+    kma, kmb = km(data, nc=2)               #Call the cluster functions to get the labels
     gmma, gmmb = gmm(data, nc=2)
+    
+    kma_av, kmb_av = km(parda, nc=2)  
+    gmma_av, gmmb_av = gmm(parda, nc=2)
     
     kma = pd.DataFrame(kma)
     kmb = pd.DataFrame(kmb)
     
+    kma_av = pd.DataFrame(kma_av)
+    kmb_av = pd.DataFrame(kmb_av)
+    
     gmma = pd.DataFrame(gmma)
     gmmb = pd.DataFrame(gmmb)
+    
+    gmma_av = pd.DataFrame(gmma_av)
+    gmmb_av = pd.DataFrame(gmmb_av)
     
     l=0
     
@@ -105,17 +109,23 @@ def image(df):
 
         m[6][int(xp), int(yp)] = gmma.iloc[l,0]
         m[7][int(xp), int(yp)] = gmmb.iloc[l,0]
-            
+        
+        m[8][int(xp), int(yp)] = kma_av.iloc[l,0]     
+        m[9][int(xp), int(yp)] = kmb_av.iloc[l,0]
+
+        m[10][int(xp), int(yp)] = gmma_av.iloc[l,0]
+        m[11][int(xp), int(yp)] = gmmb_av.iloc[l,0]
+        
     return m
    
-def print_image(m):           #Print subplots with all the matrices
+def print_images(m):           #Print subplots with all the matrices
     
-    fig = plt.figure(figsize=(15,15))
+    fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(8):
+    for i in range(12):
     
-        ax.append( fig.add_subplot(4, 2, i+1) )
+        ax.append( fig.add_subplot(8, 2, i+1) )
     
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
@@ -131,5 +141,9 @@ def print_image(m):           #Print subplots with all the matrices
     ax[5].set_title("KM Cluster on Beta Values")
     ax[6].set_title("GMM Cluster on Alfa Values")
     ax[7].set_title("GMM Cluster on Beta Values")
+    ax[8].set_title("KM Cluster on Averaged Alfa Values")
+    ax[9].set_title("KM Cluster on Averaged Beta Values")
+    ax[10].set_title("GMM Cluster on Averaged Alfa Values")
+    ax[11].set_title("GMM Cluster on Averaged Beta Values")
     
 print_image(image(data))
