@@ -1,5 +1,4 @@
-# CarloDica
-## Title
+# How to plot two columns of values related to (x,y) coordinates
 
 The aim of this project is to visualize whatever DataFrame in which I have the first two columns filled with position data ('x', 'y') and the rest of them filled with some values I want to visualize. Furthermore the code estimate the close points for every pixel and compute the mean value of it, generating smoother images.
 
@@ -8,7 +7,7 @@ In the end there will be 6 different subplots for every data columns.
 
 In this project there are 2 data columns (called arbitrarily Alfa and Beta), but adding some parameters is possible to work with any number of columns; the code can be improved and generalized by making the user choose the number of columns, and I'm working on it.
 
-## Import
+# Import
 To run the code we need 5 indispensable libraries and an optional one:
 
 ```
@@ -23,7 +22,7 @@ from tqdm import tqdm
 pandas for the DataFrames, numpy for mathematical operations, matplotlib.pyplot to show the subplots, sklearn for the two clusters functions and tqdm if we want to take trace of our cicles
 
 
-## Functions
+# Functions
 The programm is formed by 5 functions:
 1. get_close_points
 2. km
