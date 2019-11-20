@@ -6,13 +6,12 @@ from sklearn import cluster
 from sklearn.mixture import GaussianMixture
 from tqdm import tqdm
 
-    #Import the data from excel (or any other) and get the DataFrame 
 
 data = pd.read_excel("c:/Users/carlausss/Desktop/Prova.xlsx")
 data = data.dropna()
 data = pd.DataFrame(data)
 
-        #Define the functions to get close points
+col = 3
 
 def get_close_points(df, x, y, radius = 2):
     x_idx = data.iloc[:, 0]
@@ -24,34 +23,36 @@ def get_close_points(df, x, y, radius = 2):
 
                             #K-MEANS
 def km(df, nc = 2 ):
-    km_alfa = cluster.KMeans(n_clusters = nc).fit(data.iloc[:, 2:3])
-    km_beta = cluster.KMeans(n_clusters = nc).fit(data.iloc[:, 3:4])
-
-    labels_alfa = km_alfa.labels_ 
-    labels_beta = km_beta.labels_ 
-
-    return labels_alfa, labels_beta
+    kml = []
+    for i in range(col):
+        
+        km = cluster.KMeans(n_clusters = nc).fit(data.iloc[:, 2+i:3+i])   
+        labels_km = km.labels_ 
+        kml.append(labels_km)
+    
+    return kml
 
 
                             #GMM
 def gmm(df, nc = 2):
-    gmm_alfa = GaussianMixture(n_components = nc).fit(data.iloc[:, 2:3])
-    gmm_beta = GaussianMixture(n_components = nc).fit(data.iloc[:, 3:4])
+    
+    gmml = []
+    for i in range(col):
+ 
+        gmm = GaussianMixture(n_components = nc).fit(data.iloc[:, 2+i:3+i])
+        labels_gmm = gmm.predict(data.iloc[:, 2+i:3+i])
+        gmml.append(labels_gmm)
+        
+    return gmml
 
-    lab_alfa = gmm_alfa.predict(data.iloc[:, 2:3])
-    lab_beta = gmm_beta.predict(data.iloc[:, 3:4])
 
-    return lab_alfa, lab_beta
-
-
-def images(df):
+def image(df):
 
     m = []  
     max_x=max(data.iloc[:,0])+1
     max_y=max(data.iloc[:,1])+1
 
-    for i in range(12):    #Create empty matrices of the correct lenght to be filled
-
+    for i in range(6*col):
         mat = np.empty((max_x,max_y))
         mat.fill(np.nan)        
         
@@ -61,89 +62,76 @@ def images(df):
 
     for j in tqdm(range(len(data))):
         
-        xp = data.iloc[j,0]             #Positions on the matrix
+        xp = data.iloc[j,0] 
         yp = data.iloc[j,1] 
-
-        m[0][int(xp), int(yp)] = data.iloc[j,2]           #Fill the frist two matrices 
-        m[1][int(xp), int(yp)] = data.iloc[j,3] 
+        
+        for i in range(col):
+        
+            m[i][int(xp), int(yp)] = data.iloc[j,2+i]
+        
     
         parda = get_close_points(data, xp, yp, radius = 2)
-                                    #Get the close points for every (xp,yp) couple 
         parda = pd.DataFrame(parda)
         
-        al = parda.iloc[:,2]        #and collect their Alfa and Beta values in 2 different
-        bet = parda.iloc[:,3]       #pandas DataFrame
-
-        al = al.mean()          #Compute the mean of both the DataFrames
-        bet = bet.mean()
+        for i in range(col):
+        
+            cp = parda.iloc[:,2+i]
+            cp = cp.mean()
     
-        m[2][int(xp), int(yp)] = al   #Fill the matrices with averaged values
-        m[3][int(xp), int(yp)] = bet
+            m[col+i][int(xp), int(yp)] = cp   
        
-    kma, kmb = km(data, nc=2)               #Call the cluster functions to get the labels
-    gmma, gmmb = gmm(data, nc=2)
+    kma = km(data, nc=2)   
+    gmma = gmm(data, nc=2)
     
-    kma_av, kmb_av = km(parda, nc=2)  
-    gmma_av, gmmb_av = gmm(parda, nc=2)
+    kma_av = km(parda, nc=2)  
+    gmma_av = gmm(parda, nc=2)
     
     kma = pd.DataFrame(kma)
-    kmb = pd.DataFrame(kmb)
     
     kma_av = pd.DataFrame(kma_av)
-    kmb_av = pd.DataFrame(kmb_av)
     
     gmma = pd.DataFrame(gmma)
-    gmmb = pd.DataFrame(gmmb)
     
     gmma_av = pd.DataFrame(gmma_av)
-    gmmb_av = pd.DataFrame(gmmb_av)
-    
-    l=0
-    
+        
     for l in tqdm(range(len(data))):
         xp = data.iloc[l,0] 
         yp = data.iloc[l,1] 
-
-        m[4][int(xp), int(yp)] = kma.iloc[l,0]     #Clustering matrices 
-        m[5][int(xp), int(yp)] = kmb.iloc[l,0]
-
-        m[6][int(xp), int(yp)] = gmma.iloc[l,0]
-        m[7][int(xp), int(yp)] = gmmb.iloc[l,0]
         
-        m[8][int(xp), int(yp)] = kma_av.iloc[l,0]     
-        m[9][int(xp), int(yp)] = kmb_av.iloc[l,0]
+        for n in range(col):
 
-        m[10][int(xp), int(yp)] = gmma_av.iloc[l,0]
-        m[11][int(xp), int(yp)] = gmmb_av.iloc[l,0]
+            m[2*col+n][int(xp), int(yp)] = kma.iloc[0+n,l]     
+
+            m[3*col+n][int(xp), int(yp)] = gmma.iloc[0+n,l]
+        
+            m[4*col+n][int(xp), int(yp)] = kma_av.iloc[0+n,l]      
+
+            m[5*col+n][int(xp), int(yp)] = gmma_av.iloc[0+n,l]
         
     return m
    
-def print_images(m):           #Print subplots with all the matrices
+def print_image(m):           
     
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(12):
+    for i in range(6*col):
     
-        ax.append( fig.add_subplot(8, 2, i+1) )
+        ax.append( fig.add_subplot(8, col, i+1) )
     
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
     
         plt.imshow(m[i])
+        
+    for i in range(col):    
+        
+        ax[i].set_title("Values")
+        ax[col+i].set_title("Averaged Values")
+        ax[2*col+i].set_title("KM Cluster")
+        ax[3*col+i].set_title("GMM Cluster")
+        ax[4*col+i].set_title("KM Cluster on Averaged Values")
+        ax[5*col+i].set_title("GMM Cluster on Averaged Values")
 
-
-    ax[0].set_title("Alfa Values")
-    ax[1].set_title("Beta Values")
-    ax[2].set_title("Averaged Alfa Values")
-    ax[3].set_title("Averaged Beta Values")
-    ax[4].set_title("KM Cluster on Alfa Values")
-    ax[5].set_title("KM Cluster on Beta Values")
-    ax[6].set_title("GMM Cluster on Alfa Values")
-    ax[7].set_title("GMM Cluster on Beta Values")
-    ax[8].set_title("KM Cluster on Averaged Alfa Values")
-    ax[9].set_title("KM Cluster on Averaged Beta Values")
-    ax[10].set_title("GMM Cluster on Averaged Alfa Values")
-    ax[11].set_title("GMM Cluster on Averaged Beta Values")
     
 print_image(image(data))
