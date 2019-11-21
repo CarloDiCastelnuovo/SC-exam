@@ -98,7 +98,7 @@ def t_df(df):
     if min_y < 1:
         raise ValueError('Wrong coordinates value')  
 ```
-The last part of the code is just to verify that only one of the random DataFrame will work with the main code; we need to enter on the Python console the command line 
+The last part of the code is aimed to verify that only one of the random DataFrame will work with the main code; if we run Test.py we can see the first 5 columns of the correct DataFrame. To perform the test we need to enter on the Python console the command line:
 ```
 ! pytest Test.py
 ```
