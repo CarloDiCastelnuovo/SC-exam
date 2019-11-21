@@ -1,11 +1,10 @@
 # How to plot columns of values related to (x,y) coordinates
 
-The aim of this project is to visualize whatever DataFrame in which I have the first two columns filled with position data ('x', 'y') and the rest of them filled with some values I want to visualize. 
-To use this code is necessary to define a parameter called **col** and assign to it the number of data columns we want to analize.
+The aim of this project is to visualize whatever DataFrame in which I have the first two columns filled with position data ('x', 'y') and the rest of them filled with some values I want to visualize. The program is able to count the number of data columns that is a fundamental parameter to correctly run the code.
 ```
 data = pd.DataFrame(df, columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
-col = 3
+col = (len(data.iloc[0,:]) - 2)
 ```
 Furthermore the code estimate the close points for every pixel and compute the mean value of it, generating smoother images.
 The last step is a clustering phase in which the code estimate for every pixel the belonging to one or another cluster, with two different metodologies: the K-means and the Guassian Mixture Model (GMM). This is performed on both original and averaged values, to compare them.
@@ -80,6 +79,27 @@ The last function creates a figure made by columns of subplots sorted as the mat
 
 This function returns nothing and is immediately called by the programm passing image(data) as argument.
 
+# Test
+To efficiently run this code the DataFrame must have a specific shape, that is: column 0 and column 1 filled with data position and the rest of the DataFrame filled with any kind of numeric value. 
+To test the efficency of our DataFrame there is an additional .py file called Test.py in which is possible to upload and test whether the DataFrame is ready to be analized by the main code or not.
+
+This test code stars importing 3 libreries, pandas and numpy that we already know, and pytest to test functions.
+Then there are 3 different random generated DataFrame, the first one correct for our code and the remaining two not. 
+Then is defined the *t_df()* function to test them. It results quite easy in fact the only parameters that it analizes are the first two columns in which I need to have non-negative values as they are the pixel's coordinates on the matrix.
+```
+def t_df(df):
+    
+    min_x=min(df.iloc[:,0])
+    min_y=min(df.iloc[:,1])
+    
+    if min_x < 1:
+        raise ValueError('Wrong coordinates value')
+    
+    if min_y < 1:
+        raise ValueError('Wrong coordinates value')  
+```
+The last part of the code is just to verify that only one of the random DataFrame will work with the main code.
+So, to use it we need to upload our DataFrame first on the Test.py code and if it works on it, we are sure that it will work on Images.py too 
 
 
 
