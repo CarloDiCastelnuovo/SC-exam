@@ -29,12 +29,15 @@ def t_df(df):
 def test_function_1():
     
     t_df(df1)
+    print("DataFrame df1: \n",df1.head())
     
 def test_function_2():
     
     t_df(df2)
-    
+
 def test_function_3():
     
     t_df(df3)
-    
+
+test_function_1()
+
