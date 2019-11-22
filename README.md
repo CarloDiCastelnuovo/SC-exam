@@ -85,7 +85,7 @@ To test the efficency of our DataFrame there is an additional .py file called Te
 
 This test code stars importing 3 libreries, pandas and numpy that we already know, and pytest to test functions.
 Then there are 3 different random generated DataFrame, the first one correct for our code and the remaining two not. 
-Then is defined the *t_df()* function to test them. It results quite easy in fact the only parameters that it analizes are the first two columns in which I need to have non-negative values as they are the pixel's coordinates on the matrix.
+Then is defined the *t_df()* function to test them. It results quite easy in fact the only parameters that it analizes are the first two columns in which I need to have non-negative values as they are the pixel's coordinates on the matrix. Actually this function is defined even in the Images.py code and then called by all the functions that have the DataFrame as argument, in order to guarantee that importing any functions it will provide the DataFrame's test itself.
 ```
 def t_df(df):
     
