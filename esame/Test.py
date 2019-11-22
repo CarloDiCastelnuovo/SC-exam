@@ -26,13 +26,7 @@ def t_df(df):
     
     if min_y < 1:
         raise ValueError('Wrong coordinates value ', min_y,' is not correct')  
-    
-    for i in range(len(df)):
-        
-        if df.iloc[i,:] == np.nan:
-            raise ValueError ('All the columns must have the same lenght')
-        elif df.iloc[:,i] == np.nan:
-            raise ValueError ('All the columns must have the same lenght')
+
     
 def test_function_1():
     
