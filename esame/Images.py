@@ -14,7 +14,22 @@ data = pd.DataFrame(data)
 
 col = (len(data.iloc[0,:]) - 2)
 
+def t_df(df):
+    
+    min_x=min(df.iloc[:,0])
+    min_y=min(df.iloc[:,1])
+    
+    if min_x < 1:
+        raise ValueError('Wrong coordinates value')
+    
+    if min_y < 1:
+        raise ValueError('Wrong coordinates value')  
+
+
 def get_close_points(df, x, y, radius = 2):
+
+    t_df(data)
+    
     x_idx = data.iloc[:, 0]
     y_idx = data.iloc[:, 1]
     dist_sqrd = (x_idx-x)**2 + (y_idx-y)**2
@@ -25,6 +40,8 @@ def get_close_points(df, x, y, radius = 2):
                            
 def km(df, nc = 2 ):
     
+    t_df(data)
+
     kml = []
     
     for i in range(col):
@@ -38,6 +55,8 @@ def km(df, nc = 2 ):
 
 def gmm(df, nc = 2):
     
+    t_df(data)
+
     gmml = []
     
     for i in range(col):
@@ -50,6 +69,8 @@ def gmm(df, nc = 2):
 
 
 def images(df):
+
+    t_df(data)
 
     m = []  
     max_x=max(data.iloc[:,0])+1
