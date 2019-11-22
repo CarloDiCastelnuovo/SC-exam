@@ -42,6 +42,5 @@ def test_function_3():
     t_df(df3)
     
 test_function_1()
-test_function_4()
 
 
