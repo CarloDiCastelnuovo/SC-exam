@@ -104,4 +104,4 @@ The last part of the code is aimed to verify that only one of the random DataFra
 ```
 that will give us 2 failed, 1 passed as result. In fact the second DataFrame is filled with 100 random negative numbers while the last one in filled with uniform distributed values ranging from 0 to 1.
 
-So, to use the Image.py functions we need to upload our DataFrame on the Test.py code first and if it works on it, we are sure that it will work on Images.py too.
+So, to use the Images.py functions we need to upload our DataFrame on the Test.py code first and if it works on it, we are sure that it will work on Images.py too.
