@@ -172,5 +172,3 @@ def print_images(m, df):
         ax[3*col+i].set_title("GMM Cluster")
         ax[4*col+i].set_title("KM Cluster on Averaged Values")
         ax[5*col+i].set_title("GMM Cluster on Averaged Values")      
-
-#print_images(images(df))
