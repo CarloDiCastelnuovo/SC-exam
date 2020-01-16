@@ -8,7 +8,7 @@ from sklearn.mixture import GaussianMixture
 from tqdm import tqdm
 
 
-data = pd.read_excel("c:/Users/carlausss/Desktop/Prova.xlsx")
+data = pd.read_excel("c:/Users/carlausss/Desktop/S&C/Test_Tum.xlsx")
 data = data.dropna()
 data = pd.DataFrame(data)
 
@@ -30,6 +30,9 @@ def get_close_points(df, x, y, radius = 2):
 
     t_df(data)
     
+    if radius < 0:
+        raise ValueError('Radius value must bu greater than zero')
+    
     x_idx = data.iloc[:, 0]
     y_idx = data.iloc[:, 1]
     dist_sqrd = (x_idx-x)**2 + (y_idx-y)**2
@@ -50,6 +53,9 @@ def km(df, nc = 2 ):
         labels_km = km.labels_ 
         kml.append(labels_km)
     
+    if len(labels_km) != len(data):
+        raise ValueError('Cluster data must be same length as dataframe')
+    
     return kml
 
 
@@ -63,8 +69,11 @@ def gmm(df, nc = 2):
  
         gmm = GaussianMixture(n_components = nc).fit(data.iloc[:, 2+i:3+i])
         labels_gmm = gmm.predict(data.iloc[:, 2+i:3+i])
-        gmml.append(labels_gmm)
+        gmml.append(labels_gmm)   
         
+    if len(labels_gmm) != len(data):
+        raise ValueError('Cluster data must be same length as dataframe')
+                         
     return gmml
 
 
