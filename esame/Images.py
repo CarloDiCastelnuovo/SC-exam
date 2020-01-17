@@ -8,13 +8,16 @@ from sklearn.mixture import GaussianMixture
 from tqdm import tqdm
 
 
-data = pd.read_excel("c:/Users/carlausss/Desktop/S&C/Test_Tum.xlsx")
-data = data.dropna()
-data = pd.DataFrame(data)
+#data = pd.read_excel("c:/Users/carlausss/Desktop/S&C/Prova.xlsx")
+#data = data.dropna()
+#data = pd.DataFrame(data)
+
+data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
 
 col = (len(data.iloc[0,:]) - 2)
 
-def t_df(df):
+def correct_df(df):
     
     min_x=min(df.iloc[:,0])
     min_y=min(df.iloc[:,1])
@@ -28,7 +31,7 @@ def t_df(df):
 
 def get_close_points(df, x, y, radius = 2):
 
-    t_df(data)
+    correct_df(data)
     
     if radius < 0:
         raise ValueError('Radius value must bu greater than zero')
@@ -43,7 +46,7 @@ def get_close_points(df, x, y, radius = 2):
                            
 def km(df, nc = 2 ):
     
-    t_df(data)
+    correct_df(data)
 
     kml = []
     
@@ -61,7 +64,7 @@ def km(df, nc = 2 ):
 
 def gmm(df, nc = 2):
     
-    t_df(data)
+    correct_df(data)
 
     gmml = []
     
@@ -79,7 +82,7 @@ def gmm(df, nc = 2):
 
 def images(df):
 
-    t_df(data)
+    correct_df(data)
 
     m = []  
     max_x=max(data.iloc[:,0])+1
@@ -138,8 +141,11 @@ def images(df):
         
             m[4*col+n][int(xp), int(yp)] = kma_av.iloc[0+n,l]      
 
-            m[5*col+n][int(xp), int(yp)] = gmma_av.iloc[0+n,l]
-        
+            m[5*col+n][int(xp), int(yp)] = gmma_av.iloc[0+n,l]        
+       
+        if len(m) != 6*col:
+            raise ValueError('The number of matrices is not correct')
+            
     return m
    
 
@@ -164,6 +170,10 @@ def print_images(m):
         ax[2*col+i].set_title("KM Cluster")
         ax[3*col+i].set_title("GMM Cluster")
         ax[4*col+i].set_title("KM Cluster on Averaged Values")
-        ax[5*col+i].set_title("GMM Cluster on Averaged Values")      
+        ax[5*col+i].set_title("GMM Cluster on Averaged Values")   
+        
+        if len(ax) != len(images(data)):
+            raise ValueError('The number of subplots is not correct')
 
-#print_images(images(data))
+
+print_images(images(data))
