@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from Images import t_df, km, gmm, get_close_points
+from esame.Functions import correct_df, km, gmm, get_close_points, images, print_images
 
 
 df1 = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
@@ -19,25 +19,21 @@ df2 = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','A
 df3 = pd.DataFrame(np.random.uniform(size = (100,5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
     
 
-#data = pd.read_excel("c:/Users/carlausss/Desktop/Prova.xlsx")
-#data = pd.DataFrame(data)
-
-
-def test_function_1():
+def test_df():
     
-    t_df(df1)
+    correct_df(df1)
     print("\nCorrect DataFrame shape df1: \n\n",df1.head())
     
-    #Testing that t_df function raises error with wrong DataFrames
+    #Testing that correct_df function raises error with wrong DataFrames
     
     with pytest.raises(ValueError):
         
-        t_df(df2)
+        correct_df(df2)
         
-        t_df(df3)
+        correct_df(df3)
         
 
-test_function_1()
+test_df()
 
 
 def test_get_close_points():
@@ -45,7 +41,12 @@ def test_get_close_points():
     #Testing g_c_p raises ValueError for negative radius values
     
     with pytest.raises(ValueError):
-        get_close_points(df1, radius = -2)
+        
+        x = df1.iloc[:, 0]
+        y = df1.iloc[:, 1]
+        get_close_points(df1, x, y, radius = -2)
+
+    print("\ngcp it's ok")
 
 
 def test_km():
@@ -54,7 +55,7 @@ def test_km():
     
     x = km(df1)
     
-    assert len(x) == len(df1)
+    assert len(x) == (len(df1.iloc[0,:]) - 2)
     
 
 def test_gmm():
@@ -63,5 +64,24 @@ def test_gmm():
     
     x = gmm(df1)
     
-    assert len(x) == len(df1)
+    assert len(x) == (len(df1.iloc[0,:]) - 2)
+
+
+def test_images():
+   
+    #Testing images works correctly
+    
+    im = images(df1)
+    
+    assert len(im) == 6*(len(df1.iloc[0,:]) - 2)
+    
+
+def test_print():
+    
+    #Testing print works correctly
+    
+    pr = print_images(images(df1), df1)
+    
+    assert len(pr) == len(images(df1))
+
 
