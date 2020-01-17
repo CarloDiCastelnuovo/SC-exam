@@ -15,7 +15,7 @@ from sklearn.mixture import GaussianMixture
 from tqdm import tqdm
 
 
-def t_df(df):
+def correct_df(df):
     
     min_x=min(df.iloc[:,0])
     min_y=min(df.iloc[:,1])
@@ -29,10 +29,10 @@ def t_df(df):
 
 def get_close_points(df, x, y, radius = 2):
 
-    t_df(df)
+    correct_df(df)
     
     if radius < 0:
-        raise ValueError('Radius value must bu greater than zero')
+        raise ValueError('Radius value must be greater than zero')
     
     x_idx = df.iloc[:, 0]
     y_idx = df.iloc[:, 1]
@@ -44,7 +44,7 @@ def get_close_points(df, x, y, radius = 2):
                            
 def km(df, nc = 2 ):
     
-    t_df(df)
+    correct_df(df)
 
     kml = []
 
@@ -63,7 +63,7 @@ def km(df, nc = 2 ):
 
 def gmm(df, nc = 2):
     
-    t_df(df)
+    correct_df(df)
 
     gmml = []
     
@@ -82,7 +82,7 @@ def gmm(df, nc = 2):
 
 def images(df):
 
-    t_df(df)
+    correct_df(df)
 
     m = []  
     max_x=max(df.iloc[:,0])+1
@@ -119,8 +119,8 @@ def images(df):
     kma = km(df, nc=2)   
     gmma = gmm(df, nc=2)
     
-    kma_av = km(parda, nc=2)  
-    gmma_av = gmm(parda, nc=2)
+    kma_av = km(parda, nc=1)  
+    gmma_av = gmm(parda, nc=1)
     
     kma = pd.DataFrame(kma)
     
@@ -144,6 +144,9 @@ def images(df):
             m[4*col+n][int(xp), int(yp)] = kma_av.iloc[0+n,l]      
 
             m[5*col+n][int(xp), int(yp)] = gmma_av.iloc[0+n,l]
+        
+        if len(m) != 6*col:
+            raise ValueError('The number of matrices is not correct')
         
     return m
    
@@ -171,4 +174,8 @@ def print_images(m, df):
         ax[2*col+i].set_title("KM Cluster")
         ax[3*col+i].set_title("GMM Cluster")
         ax[4*col+i].set_title("KM Cluster on Averaged Values")
-        ax[5*col+i].set_title("GMM Cluster on Averaged Values")      
+        ax[5*col+i].set_title("GMM Cluster on Averaged Values")   
+        
+    if len(ax) != images(df):
+        raise ValueError('The number of subplots is not correct')
+
