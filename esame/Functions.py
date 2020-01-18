@@ -176,6 +176,7 @@ def print_images(m, df):
         ax[4*col+i].set_title("KM Cluster on Averaged Values")
         ax[5*col+i].set_title("GMM Cluster on Averaged Values")   
         
-    if len(ax) != images(df):
+    if len(ax) != len(images(df)):
         raise ValueError('The number of subplots is not correct')
 
+    return ax
