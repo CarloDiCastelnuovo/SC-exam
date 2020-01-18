@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from esame.Functions import correct_df, km, gmm, get_close_points, images, print_images
+from esame.Images import correct_df, km, gmm, get_close_points, images, print_images
 
 
 df1 = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
@@ -46,8 +46,6 @@ def test_get_close_points():
         y = df1.iloc[:, 1]
         get_close_points(df1, x, y, radius = -2)
 
-    print("\ngcp it's ok")
-
 
 def test_km():
     
@@ -80,8 +78,9 @@ def test_print():
     
     #Testing print works correctly
     
-    pr = print_images(images(df1), df1)
+    pr = print_images(images(df1))
+    m = images(df1)
     
-    assert len(pr) == len(images(df1))
+    assert len(pr) == len(m)
 
 
