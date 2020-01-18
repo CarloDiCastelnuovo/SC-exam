@@ -13,6 +13,7 @@ from tqdm import tqdm
 #data = pd.DataFrame(data)
 
 data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+#data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
 
 col = (len(data.iloc[0,:]) - 2)
@@ -174,6 +175,7 @@ def print_images(m):
         
         if len(ax) != len(images(data)):
             raise ValueError('The number of subplots is not correct')
-
+        
+        return ax
 
 print_images(images(data))
