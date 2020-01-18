@@ -27,14 +27,20 @@ from tqdm import tqdm
 
 
 # Functions
-The programm is formed by 5 functions:
-1. get_close_points
-2. km
-3. gmm
-4. image
-5. print_image
+The programm is formed by 6 functions:
+1. correct_df
+2. get_close_points
+3. km
+4. gmm
+5. images
+6. print_images
 
-## 1. get_close_points(df, x, y, radius=2)
+## 1. correct_df(df)
+The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the first two columns contain or not positive integer values, which correspond to the positional index on the final matrices.
+
+-df: the only argument it receives is the DataFrame to check.
+
+## 2. get_close_points(df, x, y, radius=2)
 The aim of this function is to collect the points within a radius, whose length can be modified in its definition, for each pixel of the image.
 
 - df: is a DataFrame like the one described above.
@@ -43,7 +49,7 @@ The aim of this function is to collect the points within a radius, whose length 
 
 It returns the list of points within the radius.
 
-## 2. km(df, nc = 2)
+## 3. km(df, nc = 2)
 The function to collect the labels for K-Means clustering.
 
 - df: is a DataFrame like the one described above.
@@ -51,7 +57,7 @@ The function to collect the labels for K-Means clustering.
 
 It returns a lists of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
 
-## 3. gmm(df, nc = 2)
+## 4. gmm(df, nc = 2)
 The function to collect the labels for GMM clustering.
 
 - df: is a DataFrame like the one described above.
@@ -59,7 +65,7 @@ The function to collect the labels for GMM clustering.
 
 It returns a lists of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
 
-## 4. images(df)
+## 5. images(df)
 This is the main function of the code, it takes only the DataFrame as an argument, but is able to build the matrices we want to visualize. It is possible to better explain its functioning by dividing the operations into 5 steps:
 - I: it creates a list of empty matrices, of the lenght of the data and fills them with "nan"; it is important that they are filled        like this and not with zeros as this could be a value of our data and we want to visualize it.
 - II: with a **for** cicle the function takes the coordinates of every pixel and creates the first images filling the matrices with the corresponding value.
@@ -72,40 +78,26 @@ _The II and III steps are both within a **for** cicle of the lenght of the data,
 
 The function returns a list of filled matrices.
 
-## 5. print_images(m)
+## 6. print_images(m)
 The last function creates a figure made by columns of subplots sorted as the matrices are created in the previous function.
 
 - m: the list of matrices to be shown.
 
-This function returns nothing and is immediately called by the programm passing image(data) as argument.
+This function returns the list in which the subplots have been uploaded and is immediately called by the programm passing images(data) as argument.
 
 # Test
 To efficiently run this code the DataFrame must have a specific shape, that is: column 0 and column 1 filled with data position and the rest of the DataFrame filled with any kind of numeric value. 
-To test the efficency of our DataFrame there is an additional .py file called Test.py in which is possible to upload and test whether the DataFrame is ready to be analized by the main code or not.
+To test the efficency of our code there is an additional .py file called Test.py.
 
-This test code stars importing 3 libreries, pandas and numpy that we already know, and pytest to test functions.
-Then there are 3 different random generated DataFrame, the first one correct for our code and the remaining two not. 
-Then is defined the *t_df()* function to test them. It results quite easy in fact the only parameters that it analizes are the first two columns in which I need to have non-negative values as they are the pixel's coordinates on the matrix. Actually this function is defined even in the Images.py code and then called by all the functions that have the DataFrame as argument, in order to guarantee that importing any functions it will provide the DataFrame's test itself.
-```
-def t_df(df):
-    
-    min_x=min(df.iloc[:,0])
-    min_y=min(df.iloc[:,1])
-    
-    if min_x < 1:
-        raise ValueError('Wrong coordinates value')
-    
-    if min_y < 1:
-        raise ValueError('Wrong coordinates value')  
-```
-The last part of the code is aimed to verify that only one of the random DataFrame will work with the main code; if we run Test.py we can see the first 5 columns of the correct DataFrame. To perform the test we need to enter on the Python console the command line:
+This test code stars importing 3 libreries, pandas and numpy that we already know, and pytest to test functions. Then the functions to be tested are imported from the main code.
+There are 3 different random generated DataFrame, the first one correct for our code and the remaining two incorrect. 
+6 test functions, corresponding to the 6 functions of the main code, are defined in this file; each of which has the goal to verify that everything works has it should.
+
+If we run Test.py we can see the first 5 columns of the correct DataFrame. To perform the test we need to enter on the Python console the command line:
 ```
 ! pytest Test.py
 ```
-that will give us 2 failed, 1 passed as result. In fact the second DataFrame is filled with 100 random negative numbers while the last one in filled with uniform distributed values ranging from 0 to 1.
-
-So, to use the Images.py functions we need to upload our DataFrame on the Test.py code first and if it works on it, we are sure that it will work on Images.py too.
-
+that will give us **6 passed** as result.
 
 ###### About time
 For a 3500 long DataFrame with 2 columns of data the program takes 30 second to print the whole set of subplots.  
