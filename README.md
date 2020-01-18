@@ -38,7 +38,7 @@ The programm is formed by 6 functions:
 ## 1. correct_df(df)
 The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the first two columns contain or not positive integer values, which correspond to the positional index on the final matrices.
 
--df: the only argument it receives is the DataFrame to check.
+- df: the only argument it receives is the DataFrame to check.
 
 ## 2. get_close_points(df, x, y, radius=2)
 The aim of this function is to collect the points within a radius, whose length can be modified in its definition, for each pixel of the image.
@@ -85,6 +85,9 @@ The last function creates a figure made by columns of subplots sorted as the mat
 
 This function returns the list in which the subplots have been uploaded and is immediately called by the programm passing images(data) as argument.
 
+## Control
+At the end of every function's definition we can find a little control performed with an **if** that will raise **ValueError** in the case of malfunction.
+
 # Test
 To efficiently run this code the DataFrame must have a specific shape, that is: column 0 and column 1 filled with data position and the rest of the DataFrame filled with any kind of numeric value. 
 To test the efficency of our code there is an additional .py file called Test.py.
@@ -99,5 +102,7 @@ If we run Test.py we can see the first 5 columns of the correct DataFrame. To pe
 ```
 that will give us **6 passed** as result.
 
+###### Note
+In this repository we can even find a file called Functions.py in which are just defined the functions described whitout any DataFrame to provide the most general version possbile of the code. 
 ###### About time
 For a 3500 long DataFrame with 2 columns of data the program takes 30 second to print the whole set of subplots.  
