@@ -23,10 +23,10 @@ def check_correct_coordinates(df):
     min_y=min(df.iloc[:,1])
     
     if min_x < 1:
-        raise ValueError('Wrong coordinates value or wrong coloumns coordinates position')
+        raise ValueError('Wrong coordinates value or wrong columns coordinates position. The position data must be stored in the first two columns')
     
     if min_y < 1:
-        raise ValueError('Wrong coordinates value or wrong coloumns coordinates position')  
+        raise ValueError('Wrong coordinates value or wrong columns coordinates position. The position data must be stored in the first two columns')  
 
 
 def get_close_points(df, x, y, radius = 2):
@@ -44,10 +44,10 @@ def get_close_points(df, x, y, radius = 2):
                            
 def k_means_cluster(df, nc = 2 ):
     
-
     kml = []
 
     col = (len(df.iloc[0,:]) - 2)    
+    
     for i in range(col):
         
         km = cluster.KMeans(n_clusters = nc).fit(df.iloc[:, 2+i:3+i])   
@@ -62,10 +62,10 @@ def k_means_cluster(df, nc = 2 ):
 
 def gmm_cluster(df, nc = 2):
 
-
     gmml = []
     
     col = (len(df.iloc[0,:]) - 2)
+    
     for i in range(col):
  
         gmm = GaussianMixture(n_components = nc).fit(df.iloc[:, 2+i:3+i])
@@ -100,8 +100,7 @@ def images(df):
         for i in range(col):
         
             m[i][int(xp), int(yp)] = df.iloc[j,2+i]
-        
-    
+            
         parda = get_close_points(df, xp, yp, radius = 2)
         parda = pd.DataFrame(parda)
         
