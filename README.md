@@ -1,6 +1,6 @@
-# How to plot columns of values related to (x,y) coordinates
+# How to plot columns of values related to (X,Y) coordinates
 
-The aim of this project is to visualize whatever DataFrame in which I have the first two columns filled with position data ('x', 'y') and the rest of them filled with some values I want to visualize. The program is able to count the number of data columns that is a fundamental parameter to correctly run the code.
+The aim of this project is to visualize whatever DataFrame in which I have the first two columns filled with position data ('X', 'Y') and the rest of them filled with some values I want to visualize. The program is able to count the number of data columns that is a fundamental parameter to correctly run the code. To achieve this, the first two columns must be those relating to the position within the matrix.
 ```
 data = pd.DataFrame(df, columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
@@ -28,15 +28,15 @@ from tqdm import tqdm
 
 # Functions
 The programm is formed by 6 functions:
-1. correct_df
+1. check_correct_coordinates
 2. get_close_points
-3. km
-4. gmm
+3. k_means_cluster
+4. gmm_cluster
 5. images
 6. print_images
 
-## 1. correct_df(df)
-The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the first two columns contain or not positive integer values, which correspond to the positional index on the final matrices.
+## 1. check_correct_coordinates(df)
+The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the first two columns contain or not positive integer values, which correspond to the positional index on the final matrices. If is not the function will notify you.
 
 - df: the only argument it receives is the DataFrame to check.
 
@@ -49,7 +49,7 @@ The aim of this function is to collect the points within a radius, whose length 
 
 It returns the list of points within the radius.
 
-## 3. km(df, nc = 2)
+## 3. k_means_cluster(df, nc = 2)
 The function to collect the labels for K-Means clustering.
 
 - df: is a DataFrame like the one described above.
@@ -57,7 +57,7 @@ The function to collect the labels for K-Means clustering.
 
 It returns a lists of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
 
-## 4. gmm(df, nc = 2)
+## 4. gmm_cluster(df, nc = 2)
 The function to collect the labels for GMM clustering.
 
 - df: is a DataFrame like the one described above.
@@ -102,7 +102,5 @@ If we run Test.py we can see the first 5 columns of the correct DataFrame. To pe
 ```
 that will give us **6 passed** as result.
 
-###### Note
-In this repository we can even find a file called Functions.py in which are just defined the functions described whitout any DataFrame to provide the most general version possbile of the code. 
 ###### About time
 For a 3500 long DataFrame with 2 columns of data the program takes 30 second to print the whole set of subplots.  
