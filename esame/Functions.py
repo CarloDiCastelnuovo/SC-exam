@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 15 18:09:05 2020
+Created on Fri Jul 24 11:21:50 2020
 
 @author: carlausss
 """
@@ -15,21 +15,21 @@ from sklearn.mixture import GaussianMixture
 from tqdm import tqdm
 
 
-def correct_df(df):
+def check_correct_coordinates(df):
+    
+    #Checking whether the first two coloumns are filled or not with positions data
     
     min_x=min(df.iloc[:,0])
     min_y=min(df.iloc[:,1])
     
     if min_x < 1:
-        raise ValueError('Wrong coordinates value')
+        raise ValueError('Wrong coordinates value or wrong coloumns coordinates position')
     
     if min_y < 1:
-        raise ValueError('Wrong coordinates value')  
+        raise ValueError('Wrong coordinates value or wrong coloumns coordinates position')  
 
 
 def get_close_points(df, x, y, radius = 2):
-
-    correct_df(df)
     
     if radius < 0:
         raise ValueError('Radius value must be greater than zero')
@@ -42,9 +42,8 @@ def get_close_points(df, x, y, radius = 2):
     return df.loc[to_take]
 
                            
-def km(df, nc = 2 ):
+def k_means_cluster(df, nc = 2 ):
     
-    correct_df(df)
 
     kml = []
 
@@ -61,9 +60,8 @@ def km(df, nc = 2 ):
     return kml
 
 
-def gmm(df, nc = 2):
-    
-    correct_df(df)
+def gmm_cluster(df, nc = 2):
+
 
     gmml = []
     
@@ -81,8 +79,6 @@ def gmm(df, nc = 2):
 
 
 def images(df):
-
-    correct_df(df)
 
     m = []  
     max_x=max(df.iloc[:,0])+1
@@ -116,11 +112,11 @@ def images(df):
     
             m[col+i][int(xp), int(yp)] = cp   
        
-    kma = km(df, nc=2)   
-    gmma = gmm(df, nc=2)
+    kma = k_means_cluster(df, nc=2)   
+    gmma = gmm_cluster(df, nc=2)
     
-    kma_av = km(parda, nc=1)  
-    gmma_av = gmm(parda, nc=1)
+    kma_av = k_means_cluster(parda, nc=1)  
+    gmma_av = gmm_cluster(parda, nc=1)
     
     kma = pd.DataFrame(kma)
     
