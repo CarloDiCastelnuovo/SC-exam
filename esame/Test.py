@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from esame.Functions import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, images, print_images
+from esame.Functions import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, generate_images, print_images
 
 #Generate 3 different DataFrame to test the functions, df1 has correct shape df2 and df3 have not
 
@@ -20,7 +20,7 @@ df2 = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','A
 df3 = pd.DataFrame(np.random.uniform(size = (100,5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
     
 
-def test_df_shape():
+def test_df_coordinates():
     
     #Testing that check_correct_coordinates works correctly with a dataframe with correct shape
     
@@ -35,7 +35,7 @@ def test_df_shape():
         
         check_correct_coordinates(df3)
         
-test_df_shape()
+test_df_coordinates()
 
 
 def test_get_close_points():
@@ -67,11 +67,11 @@ def test_gmm_cluster():
     assert len(x) == (len(df1.iloc[0,:]) - 2)
 
 
-def test_images():
+def test_gen_images():
    
     #Testing images function generate the right number of matricies to be displayed 
     
-    im = images(df1)
+    im = generate_images(df1)
     
     assert len(im) == 6*(len(df1.iloc[0,:]) - 2)
     
@@ -80,8 +80,8 @@ def test_print_images():
     
     #Testing print_images function prints the right number of subplots
     
-    pr = print_images(images(df1))
-    m = images(df1)
+    pr = print_images(generate_images(df1))
+    m = generate_images(df1)
     
     assert len(pr) == len(m)
 

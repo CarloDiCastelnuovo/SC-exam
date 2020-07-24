@@ -78,7 +78,7 @@ def gmm_cluster(df, nc = 2):
     return gmml
 
 
-def images(df):
+def generate_images(df):
 
     m = []  
     max_x=max(df.iloc[:,0])+1
@@ -171,7 +171,7 @@ def print_images(m, df):
         ax[4*col+i].set_title("KM Cluster on Averaged Values")
         ax[5*col+i].set_title("GMM Cluster on Averaged Values")   
         
-    if len(ax) != len(images(df)):
+    if len(ax) != len(generate_images(df)):
         raise ValueError('The number of subplots is not correct')
 
     return ax
