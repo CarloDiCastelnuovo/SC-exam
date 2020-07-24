@@ -27,7 +27,7 @@ def test_df_shape():
     check_correct_coordinates(df1)
     print("\nCorrect DataFrame shape df1: \n\n",df1.head())
     
-    #Testing that check_correct_coordinates function raises error with wrong DataFrames
+    #Testing that check_correct_coordinates function raises error with wrong dataframes
     
     with pytest.raises(ValueError):
         
@@ -40,7 +40,7 @@ test_df_shape()
 
 def test_get_close_points():
     
-    #Testing g_c_p raises ValueError for negative radius values
+    #Testing get_close_points function raises ValueError for negative radius values
     
     with pytest.raises(ValueError):
         
@@ -55,7 +55,7 @@ def test_k_means_cluster():
     
     x = k_means_cluster(df1)
     
-    assert len(x) == (len(df1.iloc[0,:]) - 2)
+    assert len(x) == (len(df1))
     
 
 def test_gmm_cluster():
@@ -64,7 +64,7 @@ def test_gmm_cluster():
     
     x = gmm_cluster(df1)
     
-    assert len(x) == (len(df1.iloc[0,:]) - 2)
+    assert len(x) == (len(df1))
 
 
 def test_images():
