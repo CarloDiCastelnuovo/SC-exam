@@ -55,7 +55,7 @@ def test_k_means_cluster():
     
     x = k_means_cluster(df1)
     
-    assert len(x) == (len(df1))
+    assert len(x) == (len(df1.iloc[0,:]) - 2)
     
 
 def test_gmm_cluster():
@@ -64,7 +64,7 @@ def test_gmm_cluster():
     
     x = gmm_cluster(df1)
     
-    assert len(x) == (len(df1))
+    assert len(x) == (len(df1.iloc[0,:]) - 2)
 
 
 def test_images():
