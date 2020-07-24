@@ -9,8 +9,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from esame.Images import correct_df, km, gmm, get_close_points, images, print_images
+from esame.Functions import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, images, print_images
 
+#Generate 3 different DataFrame to test the functions, df1 has correct shape df2 and df3 have not
 
 df1 = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
    
@@ -19,21 +20,22 @@ df2 = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','A
 df3 = pd.DataFrame(np.random.uniform(size = (100,5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
     
 
-def test_df():
+def test_df_shape():
     
-    correct_df(df1)
+    #Testing that check_correct_coordinates works correctly with a dataframe with correct shape
+    
+    check_correct_coordinates(df1)
     print("\nCorrect DataFrame shape df1: \n\n",df1.head())
     
-    #Testing that correct_df function raises error with wrong DataFrames
+    #Testing that check_correct_coordinates function raises error with wrong DataFrames
     
     with pytest.raises(ValueError):
         
-        correct_df(df2)
+        check_correct_coordinates(df2)
         
-        correct_df(df3)
+        check_correct_coordinates(df3)
         
-
-test_df()
+test_df_shape()
 
 
 def test_get_close_points():
@@ -47,36 +49,36 @@ def test_get_close_points():
         get_close_points(df1, x, y, radius = -2)
 
 
-def test_km():
+def test_k_means_cluster():
     
-    #Testing km works correctly
+    #Testing k_means_cluster generate a cluster label for every dataframe point
     
-    x = km(df1)
+    x = k_means_cluster(df1)
     
     assert len(x) == (len(df1.iloc[0,:]) - 2)
     
 
-def test_gmm():
+def test_gmm_cluster():
     
-    #Testing gmm works correctly
+    #Testing gmm_cluster generate a cluster label for every dataframe point
     
-    x = gmm(df1)
+    x = gmm_cluster(df1)
     
     assert len(x) == (len(df1.iloc[0,:]) - 2)
 
 
 def test_images():
    
-    #Testing images works correctly
+    #Testing images function generate the right number of matricies to be displayed 
     
     im = images(df1)
     
     assert len(im) == 6*(len(df1.iloc[0,:]) - 2)
     
 
-def test_print():
+def test_print_images():
     
-    #Testing print works correctly
+    #Testing print_images function prints the right number of subplots
     
     pr = print_images(images(df1))
     m = images(df1)
