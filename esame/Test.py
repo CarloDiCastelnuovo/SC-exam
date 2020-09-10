@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Nov 20 11:50:03 2019
+Created on Wed Sep  9 12:05:29 2020
 
 @author: carlausss
 """
 
+
 import numpy as np
 import pandas as pd
-import pytest
+#import pytest
 
-from esame.Functions import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, generate_images, print_images
+from esame.Images import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
+from esame.Images import print_original_images, print_smoother_images, print_kMeansCluster_images, print_kMeansCluster_AveragedImages, print_gmmCluster_images, print_gmmCluster_AveragedImages
+#from Images.py import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
 
 #Generate 3 different DataFrame to test the functions, df1 has correct shape df2 and df3 have not
 
@@ -19,36 +22,34 @@ df2 = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','A
    
 df3 = pd.DataFrame(np.random.uniform(size = (100,5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
     
-
-def test_df_coordinates():
+print("\nCorrect DataFrame shape df1: \n\n",df1.head())
     
-    #Testing that check_correct_coordinates works correctly with a dataframe with correct shape
+def test_check_correct_coordinates():
     
-    check_correct_coordinates(df1)
-    print("\nCorrect DataFrame shape df1: \n\n",df1.head())
+    check1 = check_correct_coordinates(df1)
+    assert check1 == True
     
-    #Testing that check_correct_coordinates function raises error with wrong dataframes
+    check2 = check_correct_coordinates(df2)
+    assert check2 == False
     
-    with pytest.raises(ValueError):
-        
-        check_correct_coordinates(df2)
-        
-        check_correct_coordinates(df3)
-        
-test_df_coordinates()
-
 
 def test_get_close_points():
     
-    #Testing get_close_points function raises ValueError for negative radius values
+    #Testing get_close_points function gives correct number of close points for ad hoc DataFrame 
     
-    with pytest.raises(ValueError):
+    dfcp = pd.DataFrame({'X' : [0,1,1,8], 'Y' : [1,0,1,5], 'test_value' : [9, 10, 11, 12]})
+    
+    l = []
+    
+    for i in range(3):    
+        x = dfcp.iloc[i, 0:1]
+        y = dfcp.iloc[i, 1:2]
+        prova = get_close_points(dfcp, x, y, radius = 2)
+        l.append(prova)
         
-        x = df1.iloc[:, 0]
-        y = df1.iloc[:, 1]
-        get_close_points(df1, x, y, radius = -2)
-
-
+    assert len(l) == 3
+        
+    
 def test_k_means_cluster():
     
     #Testing k_means_cluster generate a cluster label for every dataframe point
@@ -66,23 +67,32 @@ def test_gmm_cluster():
     
     assert len(x) == (len(df1.iloc[0,:]) - 2)
 
-
-def test_gen_images():
-   
-    #Testing images function generate the right number of matricies to be displayed 
+def test_fill():
     
-    im = generate_images(df1)
+    #Testing that all the fill functions give the correct number of matricies, one for every parameter
+    #for the first and second function; two for every parameter for the last corresponding to cluster
+    #analysis on both original and averaged values.
     
-    assert len(im) == 6*(len(df1.iloc[0,:]) - 2)
+    x = fill_matricies_with_original_data(df1)
+    y = fill_matricies_with_smoother_data(df1)
+    km = fill_matricies_with_kMeansCluster_data(df1)
+    gmm = fill_matricies_with_gmmCluster_data(df1)
     
-
-def test_print_images():
+    assert len(x) == (len(df1.iloc[0,:]) - 2)
+    assert len(y) == (len(df1.iloc[0,:]) - 2)
+    assert len(km) == 2*(len(df1.iloc[0,:]) - 2)
+    assert len(gmm) == 2*(len(df1.iloc[0,:]) - 2)
     
-    #Testing print_images function prints the right number of subplots
+def test_print():
     
-    pr = print_images(generate_images(df1))
-    m = generate_images(df1)
+    #Testing that all the print functions create the correct number of subplots 
     
-    assert len(pr) == len(m)
+    assert len(print_original_images(fill_matricies_with_original_data(df1))) == (len(df1.iloc[0,:]) - 2)
+    assert len(print_smoother_images(fill_matricies_with_smoother_data(df1))) == (len(df1.iloc[0,:]) - 2)
+    assert len(print_kMeansCluster_images(fill_matricies_with_kMeansCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
+    assert len(print_gmmCluster_images(fill_matricies_with_gmmCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
+    assert len(print_kMeansCluster_AveragedImages(fill_matricies_with_kMeansCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
+    assert len(print_gmmCluster_AveragedImages(fill_matricies_with_gmmCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
+    
 
 
