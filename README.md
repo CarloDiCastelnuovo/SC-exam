@@ -1,14 +1,21 @@
 # How to plot columns of values related to (X,Y) coordinates
 
-The aim of this project is to visualize whatever DataFrame in which I have the first two columns filled with position data ('X', 'Y') and the rest of them filled with some values I want to visualize. The program is able to count the number of data columns that is a fundamental parameter to correctly run the code. To achieve this, the first two columns must be those relating to the position within the matrix.
-```
-data = pd.DataFrame(df, columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+In computer terms, images are nothing more than matrices in which a numerical value corresponds to each pair of indices. The goal of this project is to create a software capable of reconstructing, smoothering and analyzing any dataframe containing the information thus codified concerning one or more images.
+Reguarding smoothering, the software defines a function capable of collecting, for each single pixel, all the neighbors, where the proximity is defined by the user. Once the coordinates of these nearby points have been collected, the software calculates their average value and replaces it with the value of the initial pixel.
+The analyzes conducted are two different types of clustering carried out both on the original values and on those mediated by the close points.
 
+Two essential preliminary steps are the reading of the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation), and the count of the number of parameters you want to visualize.
+
+```
+    #Example of a correct DataFrame
+data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
+    #Example of an incorrect DataFrame
+#data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
+    #Number of parameters
 col = (len(data.iloc[0,:]) - 2)
 ```
-Furthermore the code estimate the close points for every pixel and compute the mean value of it, generating smoother images.
-The last step is a clustering phase in which the code estimate for every pixel the belonging to one or another cluster, with two different metodologies: the K-means and the Guassian Mixture Model (GMM). This is performed on both original and averaged values, to compare them.
-In the end there will be 6 different subplots for every data columns.
 
 
 # Import
@@ -27,16 +34,27 @@ from tqdm import tqdm
 
 
 # Functions
-The programm is formed by 6 functions:
+
 1. check_correct_coordinates
 2. get_close_points
 3. k_means_cluster
 4. gmm_cluster
-5. generate_images
-6. print_images
+5. fill_functions
+    - fill_matricies_with_original_data
+    - fill_matricies_with_smoother_data
+    - fill_matricies_with_kMeansCluster_data
+    - fill_matricies_with_gmmCluster_data
+ 
+6. print_functions
+    - print_original_images
+    - print_smoother_images 
+    - print_kMeansCluster_images
+    - print_kMeansCluster_AveragedImages
+    - print_gmmCluster_images
+    - print_gmmCluster_AveragedImage
 
 ## 1. check_correct_coordinates(df)
-The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the first two columns contain or not positive integer values, which correspond to the positional index on the final matrices. If is not the function will notify you.
+The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the columns containing positional data have or not positive integer values, which correspond to the positional index on the matrices. 
 
 - df: the only argument it receives is the DataFrame to check.
 
