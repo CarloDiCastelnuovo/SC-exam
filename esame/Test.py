@@ -26,11 +26,15 @@ print("\nCorrect DataFrame shape df1: \n\n",df1.head())
     
 def test_check_correct_coordinates():
     
+    #Testing that the check function return True with correct DF and False with wrong DF
+    
     check1 = check_correct_coordinates(df1)
     assert check1 == True
     
     check2 = check_correct_coordinates(df2)
+    check3 = check_correct_coordinates(df3)
     assert check2 == False
+    assert check3 == False
     
 
 def test_get_close_points():
@@ -70,7 +74,7 @@ def test_gmm_cluster():
 def test_fill():
     
     #Testing that all the fill functions give the correct number of matricies, one for every parameter
-    #for the first and second function; two for every parameter for the last corresponding to cluster
+    #for the first and second function; two for every parameter for the lasts corresponding to cluster
     #analysis on both original and averaged values.
     
     x = fill_matricies_with_original_data(df1)
