@@ -10,9 +10,9 @@ import numpy as np
 import pandas as pd
 #import pytest
 
-from esame.Images import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
-from esame.Images import print_original_images, print_smoother_images, print_kMeansCluster_images, print_kMeansCluster_AveragedImages, print_gmmCluster_images, print_gmmCluster_AveragedImages
-#from Images.py import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points, fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
+from esame.Project import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points
+from esame.Project import  fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
+from esame.Project import print_original_images, print_smoother_images, print_kMeansCluster_images, print_kMeansCluster_AveragedImages, print_gmmCluster_images, print_gmmCluster_AveragedImages
 
 #Generate 3 different DataFrame to test the functions, df1 has correct shape df2 and df3 have not
 
