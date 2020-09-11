@@ -4,7 +4,9 @@ In computer terms, images are nothing more than matrices in which a numerical va
 Reguarding smoothering, the software defines a function capable of collecting, for each single pixel, all the neighbors, where the proximity is defined by the user. Once the coordinates of these nearby points have been collected, the software calculates their average value and replaces it with the value of the initial pixel.
 The analyzes conducted are two different types of clustering carried out both on the original values and on those mediated by the close points.
 
-Two essential preliminary steps are the reading of the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation), and the count of the number of parameters you want to visualize.
+Two essential preliminary steps are:
+    - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation).
+    - The count of the number of parameters you want to visualize.
 
 ```
     #Example of a correct DataFrame
@@ -54,9 +56,11 @@ from tqdm import tqdm
     - print_gmmCluster_AveragedImage
 
 ## 1. check_correct_coordinates(df)
-The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the columns containing positional data have or not positive integer values, which correspond to the positional index on the matrices. 
+The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the columns containing positional data (here called **X** and **Y** respectivelly) have or not positive integer values, which correspond to the positional index on the matrices. 
 
 - df: the only argument it receives is the DataFrame to check.
+
+It returns True in case of correct coordinates and False for incorrect ones.
 
 ## 2. get_close_points(df, x, y, radius=2)
 The aim of this function is to collect the points within a radius, whose length can be modified in its definition, for each pixel of the image.
@@ -73,7 +77,7 @@ The function to collect the labels for K-Means clustering.
 - df: is a DataFrame like the one described above.
 - nc: is the number of clusters we want, definible in its definition.
 
-It returns a lists of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
+In Project.py it returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel.
 
 ## 4. gmm_cluster(df, nc = 2)
 The function to collect the labels for GMM clustering.
@@ -81,38 +85,60 @@ The function to collect the labels for GMM clustering.
 - df: is a DataFrame like the one described above.
 - nc: is the number of clusters we want, definible in its definition.
 
-It returns a lists of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
+In Project.py it returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
 
-## 5. generate_images(df)
-This is the main function of the code, it takes only the DataFrame as an argument, but is able to build the matrices we want to visualize. It is possible to better explain its functioning by dividing the operations into 5 steps:
-- I: it creates a list of empty matrices, of the lenght of the data and fills them with "nan"; it is important that they are filled        like this and not with zeros as this could be a value of our data and we want to visualize it.
-- II: with a **for** cicle the function takes the coordinates of every pixel and creates the first images filling the matrices with the corresponding value.
-- III: this step stars calling the get_close_points() function, passing to it our DataFrame and the coordinates of the individual pixels as arguments; then, after it creates a DataFrame with the values of the close points for the starting pixel, it computes the mean of it and fill the matrices with the averaged value.
+## 5. fill_matricies_with_original_data(df)
+Here we start to build the images: first of all the function creates a list of empty matricies one for each parameter, reading the size of the images from the maximum value of the coordinate columns; then it scrolls the position data one by one by entering the respective value for each pair of points.
 
-_The II and III steps are both within a **for** cicle of the lenght of the data, in order to scroll the list pixel by pixel_
+- df: is a DataFrame like the one described above.
 
-- IV: the function calls the km() and gmm() functions to collect the cluster labels for both single value pixels (passing the original DataFrame as an argument) and averaged pixels (passing the DataFrame previously created with the get_close_points() function).
-- V: the last step is aimed to create the clustering matrices with the lists on the IV step with another **for** cicle of the lenght of the data.
+It return the list of filled matrcies.
 
-The function returns a list of filled matrices.
+## 6. fill_matricies_with_smoother_data(df)
+Similarly to the previous function, it creates the matrices and collects data on the positions, but here for each pair the neighboring points are calculated by calling the function get_close_points(), from whose result the average value is calculated and substituted for the initial pixel.
 
-## 6. print_images(m)
-The last function creates a figure made by columns of subplots sorted as the matrices are created in the previous function.
+- df: is a DataFrame like the one described above.
 
-- m: the list of matrices to be shown.
+It return the list of filled matrcies.
 
-This function returns the list in which the subplots have been uploaded and is immediately called by the programm passing images(data) as argument.
+## 7. fill_matricies_with_kMeansCluster_data(df)
+## 8. fill_matricies_with_gmmCluster_data(df)
+Those functions call the k_means_cluster() and gmm_cluster() functions to collect the cluster labels for both single value pixels (passing the original DataFrame as an argument) and averaged pixels (passing the DataFrame previously created with the get_close_points() function).
 
-## Control
-At the end of every function's definition we can find a little control performed with an **if** that will raise **ValueError** in the case of malfunction.
+- df: is a DataFrame like the one described above.
+
+They return the lists of filled matrcies.
+
 
 # Test
-To efficiently run this code the DataFrame must have a specific shape, that is: column 0 and column 1 filled with data position and the rest of the DataFrame filled with any kind of numeric value. 
 To test the efficency of our code there is an additional .py file called Test.py.
 
-This test code stars importing 3 libreries, pandas and numpy that we already know, and pytest to test functions. Then the functions to be tested are imported from the main code.
-There are 3 different random generated DataFrame, the first one correct for our code and the remaining two incorrect. 
-6 test functions, corresponding to the 6 functions of the main code, are defined in this file; each of which has the goal to verify that everything works has it should.
+This test code stars importing 2 libreries, pandas and numpy that we already know. Then the functions to be tested are imported from the main code.
+There are 3 different random generated DataFrame, the first one correct for our code and the remaining two incorrect. The first rows of df1 are printed to show an example of correct DataFrame.
+```
+df1 = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+   
+df2 = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+   
+df3 = pd.DataFrame(np.random.uniform(size = (100,5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
+print("\nCorrect DataFrame shape df1: \n\n",df1.head())
+```
+
+6 test functions are defined in this file; each of which has the goal to verify that everything works has it should:
+
+## 1. test_check_correct_coordinates(): 
+Tests that the check function of main code return True with df1 and False with df2 and df3.
+
+## 2. test_get_close_points():
+Tests that with a build-in DataFrame with 3 out of 4 close points the get_close_points() function collect them correctly.
+
+## 3. test_k_means_cluster():
+## 4. test_gmm_cluster():
+Test that a cluster label for every dataframe point is generated for both methods.
+
+## 5. test_fill():
+Uses all the fill functions and verifies that a matrix for every configuration is generated.
 
 If we run Test.py we can see the first 5 columns of the correct DataFrame. To perform the test we need to enter on the Python console the command line:
 ```
