@@ -18,6 +18,9 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
     #Example of an incorrect DataFrame
 #data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
+    #Example of upload by excel file
+#data = pd.read_excel("c:/Users/Desktop/any_file_path/Example.xlsx")
+
     #Number of parameters
 Num_of_parameters = (len(data.iloc[0,:]) - 2)
 ```
