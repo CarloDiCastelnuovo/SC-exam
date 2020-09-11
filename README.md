@@ -1,6 +1,7 @@
 # How to plot columns of values related to (X,Y) coordinates
 
-In computer terms, images are nothing more than matrices in which a numerical value corresponds to each pair of indices. The goal of this project is to create a software capable of reconstructing, smoothering and analyzing any dataframe containing the information thus codified concerning one or more images.
+In computer terms, images are nothing more than matrices in which a numerical value corresponds to each pair of indices (X,Y). 
+The goal of this project is to create a software capable of reconstructing, smoothering and analyzing any dataframe containing the information thus codified concerning one or more images.
 Reguarding smoothering, the software defines a function capable of collecting, for each single pixel, all the neighbors, where the proximity is defined by the user. Once the coordinates of these nearby points have been collected, the software calculates their average value and replaces it with the value of the initial pixel.
 The analyzes conducted are two different types of clustering carried out both on the original values and on those mediated by the close points.
 
@@ -8,7 +9,7 @@ Two essential preliminary steps are required:
     
    - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation).
     
-   - The count of the number of parameters you want to visualize.
+   - Count the number of parameters you want to visualize.
     
   
 ```
@@ -24,7 +25,7 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
     #Number of parameters
 Num_of_parameters = (len(data.iloc[0,:]) - 2)
 ```
-
+The file inside the repository refers to a Dataframe like the one created in the example above, which presents the coordinates in the columns called 'X' and 'Y' and the parameters in those called 'Alpha' 'Beta' 'Gamma' . To use the functions with any other Dataframe, simply replace these names with those present in it.
 
 # Import
 To run the code we need 5 indispensable libraries and an optional one:
@@ -38,7 +39,7 @@ from sklearn.mixture import GaussianMixture
 
 from tqdm import tqdm
 ```
-**pandas** for the DataFrames, **numpy** for mathematical operations, **matplotlib.pyplot** to show the subplots, **sklearn** for the two clusters functions and **tqdm** if we want to take trace of our cicles
+**pandas** for the DataFrames, **numpy** for mathematical operations, **matplotlib.pyplot** to show the subplots, **sklearn** for the two clusters functions and **tqdm** if we want to take trace of our cicles.
 
 
 # Functions
