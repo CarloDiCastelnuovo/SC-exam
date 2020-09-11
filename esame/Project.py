@@ -21,7 +21,7 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
 #data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
     #Number of parameters
-col = (len(data.iloc[0,:]) - 2)
+Num_of_parameters = (len(data.iloc[0,:]) - 2)
 
 def check_correct_coordinates(df):
     
@@ -67,7 +67,7 @@ def k_means_cluster(df, nc = 2 ):
     
     kml = []
     
-    for i in range(col):
+    for i in range(Num_of_parameters):
         
         km = cluster.KMeans(n_clusters = nc).fit(data.iloc[:, 2+i:3+i])   
         labels_km = km.labels_ 
@@ -89,7 +89,7 @@ def gmm_cluster(df, nc = 2):
     
     gmml = []
     
-    for i in range(col):
+    for i in range(Num_of_parameters):
  
         gmm = GaussianMixture(n_components = nc).fit(data.iloc[:, 2+i:3+i])
         labels_gmm = gmm.predict(data.iloc[:, 2+i:3+i])
@@ -112,7 +112,7 @@ def fill_matricies_with_original_data(df):
     max_x=max(data.loc[:,'X'])+1
     max_y=max(data.loc[:,'Y'])+1 
         
-    for i in range(col):
+    for i in range(Num_of_parameters):
    
         mat = np.empty((max_x,max_y))
         mat.fill(np.nan)            
@@ -143,7 +143,7 @@ def fill_matricies_with_smoother_data(df):
     max_x=max(data.loc[:,'X'])+1
     max_y=max(data.loc[:,'Y'])+1 
         
-    for i in range(col):
+    for i in range(Num_of_parameters):
    
         mat = np.empty((max_x,max_y))
         mat.fill(np.nan)            
@@ -184,7 +184,7 @@ def fill_matricies_with_kMeansCluster_data(df):
     max_x=max(data.loc[:,'X'])+1
     max_y=max(data.loc[:,'Y'])+1 
         
-    for i in range(2*col):
+    for i in range(2*Num_of_parameters):
    
         mat = np.empty((max_x,max_y))
         mat.fill(np.nan)            
@@ -209,10 +209,10 @@ def fill_matricies_with_kMeansCluster_data(df):
         xp = data.loc[l,'X'] 
         yp = data.loc[l,'Y']
         
-        for n in range(col):
+        for n in range(Num_of_parameters):
 
             m[n][int(xp), int(yp)] = kma.iloc[0+n,l]     
-            m[col+n][int(xp), int(yp)] = kma_av.iloc[0+n,l]      
+            m[Num_of_parameters+n][int(xp), int(yp)] = kma_av.iloc[0+n,l]      
                  
     return m
    
@@ -229,7 +229,7 @@ def fill_matricies_with_gmmCluster_data(df):
     max_x=max(data.loc[:,'X'])+1
     max_y=max(data.loc[:,'Y'])+1 
         
-    for i in range(2*col):
+    for i in range(2*Num_of_parameters):
    
         mat = np.empty((max_x,max_y))
         mat.fill(np.nan)            
@@ -254,11 +254,11 @@ def fill_matricies_with_gmmCluster_data(df):
         xp = data.loc[l,'X'] 
         yp = data.loc[l,'Y']
         
-        for n in range(col):
+        for n in range(Num_of_parameters):
 
             m[n][int(xp), int(yp)] = gmma.iloc[0+n,l]
 
-            m[col+n][int(xp), int(yp)] = gmma_av.iloc[0+n,l]                    
+            m[Num_of_parameters+n][int(xp), int(yp)] = gmma_av.iloc[0+n,l]                    
     return m    
 
 def print_original_images(m):           
@@ -269,9 +269,9 @@ def print_original_images(m):
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(col):
+    for i in range(Num_of_parameters):
     
-        ax.append( fig.add_subplot(1, col, i+1) )
+        ax.append( fig.add_subplot(1, Num_of_parameters, i+1) )
     
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
@@ -292,9 +292,9 @@ def print_smoother_images(m):
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(col):
+    for i in range(Num_of_parameters):
     
-        ax.append( fig.add_subplot(1, col, i+1) )
+        ax.append( fig.add_subplot(1, Num_of_parameters, i+1) )
     
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
@@ -315,9 +315,9 @@ def print_kMeansCluster_images(m):
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(col):
+    for i in range(Num_of_parameters):
     
-        ax.append( fig.add_subplot(1, col, i+1) )
+        ax.append( fig.add_subplot(1, Num_of_parameters, i+1) )
     
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
@@ -338,9 +338,9 @@ def print_kMeansCluster_AveragedImages(m):
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(col):
+    for i in range(Num_of_parameters):
     
-        ax.append( fig.add_subplot(1, col, i+1) )
+        ax.append( fig.add_subplot(1, Num_of_parameters, i+1) )
     
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
@@ -361,9 +361,9 @@ def print_gmmCluster_images(m):
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(col):
+    for i in range(Num_of_parameters):
     
-        ax.append( fig.add_subplot(1, col, i+1) )
+        ax.append( fig.add_subplot(1, Num_of_parameters, i+1) )
         
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
@@ -384,9 +384,9 @@ def print_gmmCluster_AveragedImages(m):
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
-    for i in range(col):
+    for i in range(Num_of_parameters):
     
-        ax.append( fig.add_subplot(1, col, i+1) )
+        ax.append( fig.add_subplot(1, Num_of_parameters, i+1) )
     
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    

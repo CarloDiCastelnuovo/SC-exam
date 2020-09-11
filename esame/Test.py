@@ -59,8 +59,10 @@ def test_k_means_cluster():
     #Testing k_means_cluster generate a cluster label for every dataframe point
     
     x = k_means_cluster(df1)
-    
-    assert len(x) == (len(df1.iloc[0,:]) - 2)
+        
+    Num_of_parameters = (len(df1.iloc[0,:]) - 2)
+        
+    assert len(x) == (Num_of_parameters)
     
 
 def test_gmm_cluster():
@@ -68,8 +70,10 @@ def test_gmm_cluster():
     #Testing gmm_cluster generate a cluster label for every dataframe point
     
     x = gmm_cluster(df1)
-    
-    assert len(x) == (len(df1.iloc[0,:]) - 2)
+
+    Num_of_parameters = (len(df1.iloc[0,:]) - 2)
+   
+    assert len(x) == (Num_of_parameters)
 
 def test_fill():
     
@@ -82,21 +86,25 @@ def test_fill():
     km = fill_matricies_with_kMeansCluster_data(df1)
     gmm = fill_matricies_with_gmmCluster_data(df1)
     
-    assert len(x) == (len(df1.iloc[0,:]) - 2)
-    assert len(y) == (len(df1.iloc[0,:]) - 2)
-    assert len(km) == 2*(len(df1.iloc[0,:]) - 2)
-    assert len(gmm) == 2*(len(df1.iloc[0,:]) - 2)
+    Num_of_parameters = (len(df1.iloc[0,:]) - 2)
+    
+    assert len(x) == (Num_of_parameters)
+    assert len(y) == (Num_of_parameters)
+    assert len(km) == 2*(Num_of_parameters)
+    assert len(gmm) == 2*(Num_of_parameters)
     
 def test_print():
     
     #Testing that all the print functions create the correct number of subplots 
     
-    assert len(print_original_images(fill_matricies_with_original_data(df1))) == (len(df1.iloc[0,:]) - 2)
-    assert len(print_smoother_images(fill_matricies_with_smoother_data(df1))) == (len(df1.iloc[0,:]) - 2)
-    assert len(print_kMeansCluster_images(fill_matricies_with_kMeansCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
-    assert len(print_gmmCluster_images(fill_matricies_with_gmmCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
-    assert len(print_kMeansCluster_AveragedImages(fill_matricies_with_kMeansCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
-    assert len(print_gmmCluster_AveragedImages(fill_matricies_with_gmmCluster_data(df1))) == (len(df1.iloc[0,:]) - 2)
+    Num_of_parameters = (len(df1.iloc[0,:]) - 2)
+
+    assert len(print_original_images(fill_matricies_with_original_data(df1))) == (Num_of_parameters)
+    assert len(print_smoother_images(fill_matricies_with_smoother_data(df1))) == (Num_of_parameters)
+    assert len(print_kMeansCluster_images(fill_matricies_with_kMeansCluster_data(df1))) == (Num_of_parameters)
+    assert len(print_gmmCluster_images(fill_matricies_with_gmmCluster_data(df1))) == (Num_of_parameters)
+    assert len(print_kMeansCluster_AveragedImages(fill_matricies_with_kMeansCluster_data(df1))) == (Num_of_parameters)
+    assert len(print_gmmCluster_AveragedImages(fill_matricies_with_gmmCluster_data(df1))) == (Num_of_parameters)
     
 
 
