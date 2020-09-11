@@ -16,7 +16,7 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
 #data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
     #Number of parameters
-col = (len(data.iloc[0,:]) - 2)
+Num_of_parameters = (len(data.iloc[0,:]) - 2)
 ```
 
 
@@ -127,18 +127,21 @@ print("\nCorrect DataFrame shape df1: \n\n",df1.head())
 
 6 test functions are defined in this file; each of which has the goal to verify that everything works has it should:
 
-## 1. test_check_correct_coordinates(): 
+- **1. test_check_correct_coordinates():** 
 Tests that the check function of main code return True with df1 and False with df2 and df3.
 
-## 2. test_get_close_points():
+- **2. test_get_close_points():**
 Tests that with a build-in DataFrame with 3 out of 4 close points the get_close_points() function collect them correctly.
 
-## 3. test_k_means_cluster():
-## 4. test_gmm_cluster():
+- **3. test_k_means_cluster():**
+- **4. test_gmm_cluster():**
 Test that a cluster label for every dataframe point is generated for both methods.
 
-## 5. test_fill():
+- **5. test_fill():**
 Uses all the fill functions and verifies that a matrix for every configuration is generated.
+
+- **6. test_print():**
+Uses all the print functions and verifies that a subplot for every matrix is generated.
 
 If we run Test.py we can see the first 5 columns of the correct DataFrame. To perform the test we need to enter on the Python console the command line:
 ```
