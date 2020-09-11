@@ -77,7 +77,7 @@ The function to collect the labels for K-Means clustering.
 - df: is a DataFrame like the one described above.
 - nc: is the number of clusters we want, definible in its definition.
 
-In Project.py it returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel.
+It returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel.
 
 ## 4. gmm_cluster(df, nc = 2)
 The function to collect the labels for GMM clustering.
@@ -85,21 +85,21 @@ The function to collect the labels for GMM clustering.
 - df: is a DataFrame like the one described above.
 - nc: is the number of clusters we want, definible in its definition.
 
-In Project.py it returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
+It returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
 
 ## 5. fill_matricies_with_original_data(df)
 Here we start to build the images: first of all the function creates a list of empty matricies one for each parameter, reading the size of the images from the maximum value of the coordinate columns; then it scrolls the position data one by one by entering the respective value for each pair of points.
 
 - df: is a DataFrame like the one described above.
 
-It return the list of filled matrcies.
+It returns the list of filled matrcies.
 
 ## 6. fill_matricies_with_smoother_data(df)
 Similarly to the previous function, it creates the matrices and collects data on the positions, but here for each pair the neighboring points are calculated by calling the function get_close_points(), from whose result the average value is calculated and substituted for the initial pixel.
 
 - df: is a DataFrame like the one described above.
 
-It return the list of filled matrcies.
+It returns the list of filled matrcies.
 
 ## 7. fill_matricies_with_kMeansCluster_data(df)
 ## 8. fill_matricies_with_gmmCluster_data(df)
@@ -108,6 +108,9 @@ Those functions call the k_means_cluster() and gmm_cluster() functions to collec
 - df: is a DataFrame like the one described above.
 
 They return the lists of filled matrcies.
+
+# 9. print_functions(m)
+All the 6 print functions work similarly: they take as unique parameter a list, returned by the corresponding fill_functions. Then a list of subplots is filled with a small for-cycle on the number of parameters. Finally, the images are printed with titles and axis labels.
 
 
 # Test
