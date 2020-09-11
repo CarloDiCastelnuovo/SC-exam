@@ -37,23 +37,23 @@ from tqdm import tqdm
 
 # Functions
 
-1. check_correct_coordinates
-2. get_close_points
-3. k_means_cluster
-4. gmm_cluster
+1. check_correct_coordinates(df)
+2. get_close_points(df, x, y, radius = 2)
+3. k_means_cluster(df, nc = 2)
+4. gmm_cluster(df, nc = 2)
 5. fill_functions
-    - fill_matricies_with_original_data
-    - fill_matricies_with_smoother_data
-    - fill_matricies_with_kMeansCluster_data
-    - fill_matricies_with_gmmCluster_data
+    - fill_matricies_with_original_data(df)
+    - fill_matricies_with_smoother_data(df)
+    - fill_matricies_with_kMeansCluster_data(df)
+    - fill_matricies_with_gmmCluster_data(df)
  
 6. print_functions
-    - print_original_images
-    - print_smoother_images 
-    - print_kMeansCluster_images
-    - print_kMeansCluster_AveragedImages
-    - print_gmmCluster_images
-    - print_gmmCluster_AveragedImage
+    - print_original_images(m)
+    - print_smoother_images(m) 
+    - print_kMeansCluster_images(m)
+    - print_kMeansCluster_AveragedImages(m)
+    - print_gmmCluster_images(m)
+    - print_gmmCluster_AveragedImage(m)
 
 ## 1. check_correct_coordinates(df)
 The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the columns containing positional data (here called **X** and **Y** respectivelly) have or not positive integer values, which correspond to the positional index on the matrices. 
