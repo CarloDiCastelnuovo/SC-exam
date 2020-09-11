@@ -368,7 +368,7 @@ def print_gmmCluster_images(m):
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
     
-        plt.imshow(m[i])
+        plt.imshow(m[Num_of_parameters + i])
 
     ax[0].set_title("GMM Cluster Alfa results")        
     ax[1].set_title("GMM Cluster Beta results")        
@@ -391,7 +391,7 @@ def print_gmmCluster_AveragedImages(m):
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
     
-        plt.imshow(m[i])
+        plt.imshow(m[Num_of_parameters + i])
     
     ax[0].set_title("GMM Cluster Averaged Alfa results")        
     ax[1].set_title("GMM Cluster Averaged Beta results")        
