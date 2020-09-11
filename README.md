@@ -25,7 +25,7 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
     #Number of parameters
 Num_of_parameters = (len(data.iloc[0,:]) - 2)
 ```
-The file inside the repository refers to a Dataframe like the one created in the example above, which presents the coordinates in the columns called 'X' and 'Y' and the parameters in those called 'Alpha' 'Beta' 'Gamma' . To use the functions with any other Dataframe, simply replace these names with those present in it.
+The file inside the repository, Project.py, refers to a Dataframe like the one created in the example above, which presents the coordinates in the columns called 'X' and 'Y' and the parameters in those called 'Alpha' 'Beta' 'Gamma' . To use the functions with any other Dataframe, simply replace these names with those present in it.
 
 # Import
 To run the code we need 5 indispensable libraries and an optional one:
