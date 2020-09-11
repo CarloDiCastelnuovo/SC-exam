@@ -47,7 +47,7 @@ def get_close_points(df, x, y, radius = 2):
     #whose length can be modified in its definition, for each pixel of the image.
     #It returns the list of points within the radius.
     
-    #The arguments required arethe main DataFrame, the starting points and value of radius.
+    #The arguments required are the main DataFrame, the starting points and value of radius.
     
     if radius < 0:
         raise ValueError('Radius value must be greater than zero')
@@ -66,7 +66,7 @@ def k_means_cluster(df, nc = 2 ):
     #It returns a lists of labels ordered like the DataFrame which represents
     #membership in one of the clusters for every single pixel.
  
-    #The arguments required are tha DataFrame (df) and the number of cluster
+    #The arguments required are the DataFrame (df) and the number of cluster
     
     kml = []
     
@@ -88,7 +88,7 @@ def gmm_cluster(df, nc = 2):
     #It returns a lists of labels ordered like the DataFrame which represents
     #membership in one of the clusters for every single pixel.
     
-    #The arguments required are tha DataFrame (df) and the number of cluster
+    #The arguments required are the DataFrame (df) and the number of cluster
     
     gmml = []
     
@@ -109,7 +109,7 @@ def fill_matricies_with_original_data(df):
     #Than it starts taking position data corresponding to 'X' and 'Y' columns in the first 
     #for-cycle, finally for every parameter puts the value in correct matrix position.
     
-    #The only argument required is tha DataFrame (df)
+    #The only argument required is the DataFrame (df)
     
     m = []  
     max_x=max(data.loc[:,'X'])+1
@@ -140,7 +140,7 @@ def fill_matricies_with_smoother_data(df):
     #it computes the mean of it and fill the matrices with the averaged value. This is done
     #for every point individually.
     
-    #The only argument required is tha DataFrame (df)
+    #The only argument required is the DataFrame (df)
 
     m = []  
     max_x=max(data.loc[:,'X'])+1
@@ -181,7 +181,7 @@ def fill_matricies_with_kMeansCluster_data(df):
     #Then the cluster algorithm is iterated both on the original data and on the DF of the close points. 
     #Finally, for each parameter, two matrices representing the results of the cluster are filled.
     
-    #The only argument required is tha DataFrame (df)
+    #The only argument required is the DataFrame (df)
     
     m = []  
     max_x=max(data.loc[:,'X'])+1
@@ -226,7 +226,7 @@ def fill_matricies_with_gmmCluster_data(df):
     #Then the cluster algorithm is iterated both on the original data and on the DF of the close points. 
     #Finally, for each parameter, two matrices representing the results of the cluster are filled.
     
-    #The only argument required is tha DataFrame (df)
+    #The only argument required is the DataFrame (df)
     
     m = []  
     max_x=max(data.loc[:,'X'])+1
