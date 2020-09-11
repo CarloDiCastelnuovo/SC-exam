@@ -4,8 +4,10 @@ In computer terms, images are nothing more than matrices in which a numerical va
 Reguarding smoothering, the software defines a function capable of collecting, for each single pixel, all the neighbors, where the proximity is defined by the user. Once the coordinates of these nearby points have been collected, the software calculates their average value and replaces it with the value of the initial pixel.
 The analyzes conducted are two different types of clustering carried out both on the original values and on those mediated by the close points.
 
-Two essential preliminary steps are:
+Two essential preliminary steps are required:
+    
     - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation).
+    
     - The count of the number of parameters you want to visualize.
 
 ```
