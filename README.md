@@ -134,6 +134,8 @@ Tests that the check function of main code return True with df1 and False with d
 Tests that with a build-in DataFrame with 3 out of 4 close points the get_close_points() function collect them correctly.
 
 - **3. test_k_means_cluster():**
+Test that a cluster label for every dataframe point is generated for both methods.
+
 - **4. test_gmm_cluster():**
 Test that a cluster label for every dataframe point is generated for both methods.
 
