@@ -8,7 +8,6 @@ Created on Wed Sep  9 12:05:29 2020
 
 import numpy as np
 import pandas as pd
-#import pytest
 
 from esame.Project import check_correct_coordinates, k_means_cluster, gmm_cluster, get_close_points
 from esame.Project import  fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
