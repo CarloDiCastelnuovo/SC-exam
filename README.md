@@ -6,10 +6,11 @@ The analyzes conducted are two different types of clustering carried out both on
 
 Two essential preliminary steps are required:
     
-    - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation).
+   - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation).
     
-    - The count of the number of parameters you want to visualize.
-
+   - The count of the number of parameters you want to visualize.
+    
+  
 ```
     #Example of a correct DataFrame
 data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
