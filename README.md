@@ -2,8 +2,44 @@
 
 In computer terms, images are nothing more than matrices in which a numerical value corresponds to each pair of indices (X,Y). 
 The goal of this project is to create a software capable of reconstructing, smoothering and analyzing any dataframe containing the information thus codified concerning one or more images.
+
 Reguarding smoothering, the software defines a function capable of collecting, for each single pixel, all the neighbors, where the proximity is defined by the user. Once the coordinates of these nearby points have been collected, the software calculates their average value and replaces it with the value of the initial pixel.
-The analyzes conducted are two different types of clustering carried out both on the original values and on those mediated by the close points.
+
+The analyzes conducted are two different types of clustering carried out both on the original values and on those mediated by the close points. Clustering is a method of unsupervised learning, where each data point is grouped into a cluster, which contains similar kinds of data points.
+
+### K-Means Clustering:
+
+It is an algorithm that classifies samples based on attributes/features into K number of clusters. Clustering or grouping of samples is done by minimizing the distance between the sample and the centroid. Assign the centroid and optimize it based on the distances from the points to it. This is called Hard Assignment: we are certain that particular points belong to particular centroid, and then based on the least-squares distance method, we will optimize the placement of the centroid.
+
+Advantages of K-Means:
+
+1. Running Time
+
+2. Better for high dimensional data.
+
+3. Easy to interpret and Implement.
+
+Disadvantages of K-Means:
+
+1. Assumes the clusters as spherical, so does not work efficiently with complex geometrical shaped data(Mostly Non-Linear)
+
+2. Hard Assignment might lead to wrong grouping.
+
+### Gaussian Mixture Model:
+
+Instead of Hard assigning data points to a cluster, if we are uncertain about where the data points belong or to which group, we use this method. It uses the probability of a sample to determine the feasibility of it belonging to a cluster.
+
+Advantages:
+
+1. Does not assume clusters to be of any geometry. Works well with non-linear geometric distributions as well.
+
+2. Does not bias the cluster sizes to have specific structures as does by K-Means (Circular).
+
+Disadvantages:
+
+1. Uses all the components it has access to, so the initialization of clusters will be difficult when the dimensionality of data is high.
+
+2. Difficult to interpret.
 
 Two essential preliminary steps are required:
     
