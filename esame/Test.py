@@ -13,7 +13,7 @@ from esame.Project import check_correct_coordinates, k_means_cluster, gmm_cluste
 from esame.Project import  fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
 from esame.Project import print_original_images, print_smoother_images, print_kMeansCluster_images, print_kMeansCluster_AveragedImages, print_gmmCluster_images, print_gmmCluster_AveragedImages
 
-#Generate 3 different DataFrame to test the functions, df1 has correct shape df2 and df3 have not
+# Generate 3 different DataFrame to test the functions, df1 has correct shape df2 and df3 have not
 
 df1 = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
    
@@ -25,7 +25,7 @@ print("\nCorrect DataFrame shape df1: \n\n",df1.head())
     
 def test_check_correct_coordinates():
     
-    #Testing that the check function return True with correct DF and False with wrong DF
+    # Testing that the check function return True with correct DF and False with wrong DF
     
     check1 = check_correct_coordinates(df1)
     assert check1 == True
@@ -38,7 +38,8 @@ def test_check_correct_coordinates():
 
 def test_get_close_points():
     
-    #Testing get_close_points function gives correct number of close points for ad hoc DataFrame 
+    # Testing get_close_points function gives correct number of close points for ad hoc DataFrame:
+    # the first 3 points of dfcp (0,1)(1,0)(1,1) are within get_close_points radius, the last (8,5) is not. 
     
     dfcp = pd.DataFrame({'X' : [0,1,1,8], 'Y' : [1,0,1,5], 'test_value' : [9, 10, 11, 12]})
     
@@ -47,15 +48,15 @@ def test_get_close_points():
     for i in range(3):    
         x = dfcp.iloc[i, 0:1]
         y = dfcp.iloc[i, 1:2]
-        prova = get_close_points(dfcp, x, y, radius = 2)
-        l.append(prova)
+        within = get_close_points(dfcp, x, y, radius = 2)
+        l.append(within)
         
     assert len(l) == 3
         
     
 def test_k_means_cluster():
     
-    #Testing k_means_cluster generate a cluster label for every dataframe point
+    # Testing k_means_cluster generate a cluster label for every dataframe point
     
     x = k_means_cluster(df1)
         
@@ -66,7 +67,7 @@ def test_k_means_cluster():
 
 def test_gmm_cluster():
     
-    #Testing gmm_cluster generate a cluster label for every dataframe point
+    # Testing gmm_cluster generate a cluster label for every dataframe point
     
     x = gmm_cluster(df1)
 
@@ -76,9 +77,9 @@ def test_gmm_cluster():
 
 def test_fill():
     
-    #Testing that all the fill functions give the correct number of matricies, one for every parameter
-    #for the first and second function; two for every parameter for the lasts corresponding to cluster
-    #analysis on both original and averaged values.
+    # Testing that all the fill functions give the correct number of matricies, one for every parameter
+    # for the first and second function; two for every parameter for the lasts corresponding to cluster
+    # analysis on both original and averaged values.
     
     x = fill_matricies_with_original_data(df1)
     y = fill_matricies_with_smoother_data(df1)
@@ -94,7 +95,7 @@ def test_fill():
     
 def test_print():
     
-    #Testing that all the print functions create the correct number of subplots 
+    # Testing that all the print functions create the correct number of subplots 
     
     Num_of_parameters = (len(df1.iloc[0,:]) - 2)
 
