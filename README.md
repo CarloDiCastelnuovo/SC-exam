@@ -9,7 +9,7 @@ The analyzes conducted are two different types of clustering carried out both on
 
 ### K-Means Clustering:
 
-It is an algorithm that classifies samples based on attributes/features into K number of clusters. Clustering or grouping of samples is done by minimizing the distance between the sample and the centroid. Assign the centroid and optimize it based on the distances from the points to it. This is called Hard Assignment: we are certain that particular points belong to particular centroid, and then based on the least-squares distance method, we will optimize the placement of the centroid.
+It is an algorithm that classifies samples based on attributes/features into K number of clusters. Clustering or grouping of samples is done by minimizing the distance between the sample and the centroid.The algorithm assigns the centroid and optimize its position based on the distances from the points to it. This is called Hard Assignment: at every single iteration we are certain about the belongs of any data points to particular centroid, and then based on the least-squares distance method, we will optimize the placement of the centroid.
 
 Advantages of K-Means:
 
@@ -41,7 +41,8 @@ Disadvantages:
 
 2. Difficult to interpret.
 
-Two essential preliminary steps are required:
+
+Two essential *preliminary steps* are required:
     
    - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation).
     
