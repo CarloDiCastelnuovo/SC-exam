@@ -153,7 +153,7 @@ Those functions call the k_means_cluster() and gmm_cluster() functions to collec
 
 They return the lists of filled matrcies.
 
-# 9. print_functions(m)
+## 9. print_functions(m)
 All the 6 print functions work similarly: they take as unique parameter a list, returned by the corresponding fill_functions. Then a list of subplots is filled with a small for-cycle on the number of parameters. Finally, the images are printed with titles and axis labels.
 
 
