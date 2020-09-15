@@ -33,7 +33,7 @@ Advantages:
 
 1. Does not assume clusters to be of any geometry. Works well with non-linear geometric distributions as well.
 
-2. Does not bias the cluster sizes to have specific structures as does by K-Means (Circular).
+2. Does not bias the cluster sizes to have specific structures as done by K-Means (Circular).
 
 Disadvantages:
 
@@ -44,7 +44,7 @@ Disadvantages:
 
 Two essential *preliminary steps* are required:
     
-   - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated to illustrate the operation).
+   - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated, and an excel Example.xlsx file is loaded, to illustrate the operations).
     
    - Count the number of parameters you want to visualize.
     
@@ -121,7 +121,7 @@ The function to collect the labels for K-Means clustering.
 - df: is a DataFrame like the one described above.
 - nc: is the number of clusters we want, definible in its definition.
 
-It returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel.
+It returns a list of labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel.
 
 ## 4. gmm_cluster(df, nc = 2)
 The function to collect the labels for GMM clustering.
@@ -129,7 +129,7 @@ The function to collect the labels for GMM clustering.
 - df: is a DataFrame like the one described above.
 - nc: is the number of clusters we want, definible in its definition.
 
-It returns a list of labels made by 0 or 1 ordered like the DataFrame which represents membership in one of the two clusters for every single pixel
+It returns a list of labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel
 
 ## 5. fill_matricies_with_original_data(df)
 Here we start to build the images: first of all the function creates a list of empty matricies one for each parameter, reading the size of the images from the maximum value of the coordinate columns; then it scrolls the position data one by one by entering the respective value for each pair of points.
@@ -151,17 +151,17 @@ Those functions call the k_means_cluster() and gmm_cluster() functions to collec
 
 - df: is a DataFrame like the one described above.
 
-They return the lists of filled matrcies.
+They return the lists of matrcies filled with labels.
 
 ## 9. print_functions(m)
 All the 6 print functions work similarly: they take as unique parameter a list, returned by the corresponding fill_functions. Then a list of subplots is filled with a small for-cycle on the number of parameters. Finally, the images are printed with titles and axis labels.
 
 
 # Test
-To test the efficency of our code there is an additional .py file called Test.py.
+To test the efficency of our code there is an additional file called Test.py.
 
 This test code stars importing 2 libreries, pandas and numpy that we already know. Then the functions to be tested are imported from the main code.
-There are 3 different random generated DataFrame, the first one correct for our code and the remaining two incorrect. The first rows of df1 are printed to show an example of correct DataFrame.
+There are 3 different random generated DataFrame, the first one correct (df1) for our code and the remaining two incorrect (df2, df3). The first rows of df1 are printed to show an example of correct DataFrame.
 ```
 df1 = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
    
