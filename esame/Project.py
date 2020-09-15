@@ -14,17 +14,19 @@ from sklearn.mixture import GaussianMixture
 
 from tqdm import tqdm
 
-
-#data = pd.read_excel("c:/Users/carlausss/Desktop/S&C/Prova.xlsx")
-#data = df.dropna()
-#data = pd.DataFrame(data)
-
+    #Example of a correct DataFrame
 data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
+    #Example of an incorrect DataFrame
 #data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
+    #Example of upload by excel file
+#data = pd.read_excel("c:/Users/Desktop/any_file_path/Example.xlsx")
 
+    #Number of parameters
 Num_of_parameters = (len(data.iloc[0,:]) - 2)
 
+    #List with columns names
 Columns_name = ['Alfa','Beta','Gamma']
 
 def check_correct_coordinates(df):
@@ -35,11 +37,9 @@ def check_correct_coordinates(df):
     min_y=min(df['Y'])
     
     if min_x < 1:
-        #raise ValueError('Wrong coordinates value or wrong columns coordinates position. The position data must be stored in the first two columns')
         return False
     
     if min_y < 1:
-        #raise ValueError('Wrong coordinates value or wrong columns coordinates position. The position data must be stored in the first two columns')  
         return False
     else: 
         return True
@@ -112,14 +112,12 @@ def gmm_cluster(df, nc = 2):
                          
     return gmml
 
-#Create empty list to be filled with correct number of matricies that will be 
-#generated in the for-cycle with the shape given by the maximun of x,y position data.
 
 
 def fill_matricies_with_original_data(df):
     
-    #It starts taking position data corresponding to 'X' and 'Y' columns in the first 
-    #for-cycle, than for every parameter puts the value in correct matrix position.
+    #The function creates a list of empty matricies, one for any parameters. 
+    #Then it fills them taking one by one position data and parameter value.
     
     m = []  
     max_x=max(df['X'])+1
