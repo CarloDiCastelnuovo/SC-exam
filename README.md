@@ -42,7 +42,7 @@ Disadvantages:
 2. Difficult to interpret.
 
 
-Two essential *preliminary steps* are required:
+Three essential *preliminary steps* are required:
     
    - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated, and an excel Example.xlsx file is loaded, to illustrate the operations).
     
