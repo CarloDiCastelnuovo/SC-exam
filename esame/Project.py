@@ -69,14 +69,20 @@ def k_means_cluster(df, nc = 2 ):
     # The arguments required are the DataFrame (df) and the number of cluster
     
     kml = []
-    
-    for i in range(Num_of_parameters):
         
-        km = cluster.KMeans(n_clusters = nc).fit(data.iloc[:, 2+i:3+i])   
-        labels_km = km.labels_ 
-        kml.append(labels_km)
+    km1 = cluster.KMeans(n_clusters = nc).fit(data.loc[:, 'Alfa'])   
+    labels_km1 = km1.labels_ 
+    kml.append(labels_km1)
     
-    if len(labels_km) != len(data):
+    km2 = cluster.KMeans(n_clusters = nc).fit(data.loc[:, 'Beta'])   
+    labels_km2 = km2.labels_ 
+    kml.append(labels_km2)
+    
+    km3 = cluster.KMeans(n_clusters = nc).fit(data.loc[:, 'Gamma'])   
+    labels_km3 = km3.labels_ 
+    kml.append(labels_km3)
+    
+    if len(kml) != len(data):
         raise ValueError('Cluster data must be same length as dataframe')
     
     return kml
@@ -92,13 +98,19 @@ def gmm_cluster(df, nc = 2):
     
     gmml = []
     
-    for i in range(Num_of_parameters):
- 
-        gmm = GaussianMixture(n_components = nc).fit(data.iloc[:, 2+i:3+i])
-        labels_gmm = gmm.predict(data.iloc[:, 2+i:3+i])
-        gmml.append(labels_gmm)   
+    gmm1 = GaussianMixture(n_components = nc).fit(data.loc[:, 'Alfa'])
+    labels_gmm1 = gmm1.predict(data.iloc[:, 'Alfa'])
+    gmml.append(labels_gmm1)
+    
+    gmm2 = GaussianMixture(n_components = nc).fit(data.loc[:, 'Beta'])
+    labels_gmm2 = gmm2.predict(data.iloc[:, 'Beta'])
+    gmml.append(labels_gmm2)
+    
+    gmm3 = GaussianMixture(n_components = nc).fit(data.loc[:, 'Gamma'])
+    labels_gmm3 = gmm3.predict(data.iloc[:, 'Gamma'])
+    gmml.append(labels_gmm3)   
         
-    if len(labels_gmm) != len(data):
+    if len(gmml) != len(data):
         raise ValueError('Cluster data must be same length as dataframe')
                          
     return gmml
