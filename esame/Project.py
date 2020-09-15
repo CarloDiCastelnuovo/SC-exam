@@ -1,4 +1,4 @@
-#  -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Created on Tue Sep  8 15:51:33 2020
 
@@ -14,75 +14,74 @@ from sklearn.mixture import GaussianMixture
 
 from tqdm import tqdm
 
-    # Example of a correct DataFrame
+
+#data = pd.read_excel("c:/Users/carlausss/Desktop/S&C/Prova.xlsx")
+#data = df.dropna()
+#data = pd.DataFrame(data)
+
 data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+#data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
-    # Example of an incorrect DataFrame
-# data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
-    # Example of upload by excel file
-# data = pd.read_excel("c:/Users/Desktop/any_file_path/Example.xlsx")
-
-    # Number of parameters
 Num_of_parameters = (len(data.iloc[0,:]) - 2)
+
+Columns_name = ['Alfa','Beta','Gamma']
 
 def check_correct_coordinates(df):
     
-    # Checking wheter the position data columns is composed by positive integer or not.
+    #Checking wheter the position data columns is composed by positive integer or not.
     
-    min_x=min(df.loc[:,'X'])
-    min_y=min(df.loc[:,'Y'])
+    min_x=min(df['X'])
+    min_y=min(df['Y'])
     
     if min_x < 1:
+        #raise ValueError('Wrong coordinates value or wrong columns coordinates position. The position data must be stored in the first two columns')
         return False
     
     if min_y < 1:
+        #raise ValueError('Wrong coordinates value or wrong columns coordinates position. The position data must be stored in the first two columns')  
         return False
     else: 
         return True
 
 def get_close_points(df, x, y, radius = 2):
     
-    # The aim of this function is to collect the points within a radius, 
-    # whose length can be modified in its definition, for each pixel of the image.
-    # It returns the list of points within the radius.
-    
-    # The arguments required are the main DataFrame, the starting points and value of radius.
+    #The aim of this function is to collect the points within a radius, 
+    #whose length can be modified in its definition, for each pixel of the image.
+    #It returns the list of points within the radius.
     
     if radius < 0:
         raise ValueError('Radius value must be greater than zero')
     
-    x_idx = data.loc[:, 'X']
-    y_idx = data.loc[:, 'Y']
+    x_idx = df['X']
+    y_idx = df['Y']
     dist_sqrd = (x_idx-x)**2 + (y_idx-y)**2
     to_take = np.sqrt(dist_sqrd)<=radius
     
-    return data.loc[to_take]
+    return df.loc[to_take]
 
                            
-def k_means_cluster(df, nc = 2 ):
+def k_means_cluster(df, nc = 2):
     
-    # The function to collect the labels for K-Means clustering.
-    # It returns a lists of labels ordered like the DataFrame which represents
-    # membership in one of the clusters for every single pixel.
- 
-    # The arguments required are the DataFrame (df) and the number of cluster
+    #The function to collect the labels for K-Means clustering.
+    #It returns a lists of labels ordered like the DataFrame which represents
+    #membership in one of the clusters for every single pixel.
     
     kml = []
-        
-    km1 = cluster.KMeans(n_clusters = nc).fit(data.loc[:, 'Alfa'])   
-    labels_km1 = km1.labels_ 
-    kml.append(labels_km1)
+   
+    km = cluster.KMeans(n_clusters = nc).fit(df[Columns_name[0]])   
+    labels_km = km.labels_ 
+    kml.append(labels_km)  
     
-    km2 = cluster.KMeans(n_clusters = nc).fit(data.loc[:, 'Beta'])   
+    km2 = cluster.KMeans(n_clusters = nc).fit(df[Columns_name[1]])   
     labels_km2 = km2.labels_ 
     kml.append(labels_km2)
     
-    km3 = cluster.KMeans(n_clusters = nc).fit(data.loc[:, 'Gamma'])   
+    km3 = cluster.KMeans(n_clusters = nc).fit(df[Columns_name[2]])   
     labels_km3 = km3.labels_ 
     kml.append(labels_km3)
     
-    if len(kml) != len(data):
+    if len(labels_km) != len(df):
         raise ValueError('Cluster data must be same length as dataframe')
     
     return kml
@@ -90,42 +89,41 @@ def k_means_cluster(df, nc = 2 ):
 
 def gmm_cluster(df, nc = 2):
 
-    # The function to collect the labels for GMM clustering.
-    # It returns a lists of labels ordered like the DataFrame which represents
-    # membership in one of the clusters for every single pixel.
-    
-    # The arguments required are the DataFrame (df) and the number of cluster
+    #The function to collect the labels for GMM clustering.
+    #It returns a lists of labels ordered like the DataFrame which represents
+    #membership in one of the clusters for every single pixel.
     
     gmml = []
     
-    gmm1 = GaussianMixture(n_components = nc).fit(data.loc[:, 'Alfa'])
-    labels_gmm1 = gmm1.predict(data.iloc[:, 'Alfa'])
+    gmm1 = GaussianMixture(n_components = nc).fit(df[Columns_name[0]])
+    labels_gmm1 = gmm1.predict(df[Columns_name[0]])
     gmml.append(labels_gmm1)
     
-    gmm2 = GaussianMixture(n_components = nc).fit(data.loc[:, 'Beta'])
-    labels_gmm2 = gmm2.predict(data.iloc[:, 'Beta'])
+    gmm2 = GaussianMixture(n_components = nc).fit(df[Columns_name[1]])
+    labels_gmm2 = gmm2.predict(df[Columns_name[1]])
     gmml.append(labels_gmm2)
     
-    gmm3 = GaussianMixture(n_components = nc).fit(data.loc[:, 'Gamma'])
-    labels_gmm3 = gmm3.predict(data.iloc[:, 'Gamma'])
+    gmm3 = GaussianMixture(n_components = nc).fit(df[Columns_name[2]])
+    labels_gmm3 = gmm3.predict(df[Columns_name[2]])
     gmml.append(labels_gmm3)   
         
-    if len(gmml) != len(data):
+    if len(labels_gmm1) != len(df):
         raise ValueError('Cluster data must be same length as dataframe')
                          
     return gmml
 
+#Create empty list to be filled with correct number of matricies that will be 
+#generated in the for-cycle with the shape given by the maximun of x,y position data.
+
+
 def fill_matricies_with_original_data(df):
     
-    # The first step is to create a list of empty matrices, one for each parameter, of the correct size.
-    # Than it starts taking position data corresponding to 'X' and 'Y' columns in the first 
-    # for-cycle, finally for every parameter puts the value in correct matrix position.
-    
-    # The only argument required is the DataFrame (df)
+    #It starts taking position data corresponding to 'X' and 'Y' columns in the first 
+    #for-cycle, than for every parameter puts the value in correct matrix position.
     
     m = []  
-    max_x=max(data.loc[:,'X'])+1
-    max_y=max(data.loc[:,'Y'])+1 
+    max_x=max(df['X'])+1
+    max_y=max(df['Y'])+1 
         
     for i in range(Num_of_parameters):
    
@@ -135,28 +133,25 @@ def fill_matricies_with_original_data(df):
     
     for j in tqdm(range(len(data))):
         
-        xp = data.loc[j, 'X'] 
-        yp = data.loc[j, 'Y'] 
+        xp = df.loc[j, 'X'] 
+        yp = df.loc[j, 'Y'] 
         
-        m[0][int(xp), int(yp)] = data.loc[j,'Alfa']
-        m[1][int(xp), int(yp)] = data.loc[j,'Beta']
-        m[2][int(xp), int(yp)] = data.loc[j,'Gamma']
+        m[0][int(xp), int(yp)] = df.loc[j,Columns_name[0]]
+        m[1][int(xp), int(yp)] = df.loc[j,Columns_name[1]]
+        m[2][int(xp), int(yp)] = df.loc[j,Columns_name[2]]
         
     return m
         
         
 def fill_matricies_with_smoother_data(df):
     
-    # The first step is to create a list of empty matrices, one for each parameter, of the correct size.
-    # After it creates a DataFrame with the values of the close points for the starting pixel,
-    # it computes the mean of it and fill the matrices with the averaged value. This is done
-    # for every point individually.
+    #After it creates a DataFrame with the values of the close points for the starting pixel,
+    #it computes the mean of it and fill the matrices with the averaged value. This is done
+    #for every point individually.
     
-    # The only argument required is the DataFrame (df)
-
     m = []  
-    max_x=max(data.loc[:,'X'])+1
-    max_y=max(data.loc[:,'Y'])+1 
+    max_x=max(data['X'])+1
+    max_y=max(data['Y'])+1 
         
     for i in range(Num_of_parameters):
    
@@ -166,21 +161,21 @@ def fill_matricies_with_smoother_data(df):
     
     for j in tqdm(range(len(data))):
         
-        xp = data.loc[j,'X'] 
-        yp = data.loc[j,'Y']
+        xp = df.loc[j,'X'] 
+        yp = df.loc[j,'Y']
     
         parda = get_close_points(data, xp, yp, radius = 2)
         parda = pd.DataFrame(parda)
         
-        cp = parda.loc[:,'Alfa']
+        cp = parda[Columns_name[0]]
         cp = cp.mean()
         m[0][int(xp), int(yp)] = cp   
     
-        cp = parda.loc[:,'Beta']
+        cp = parda[Columns_name[1]]
         cp = cp.mean()
         m[1][int(xp), int(yp)] = cp   
     
-        cp = parda.loc[:,'Gamma']
+        cp = parda[Columns_name[2]]
         cp = cp.mean()
         m[2][int(xp), int(yp)] = cp   
     
@@ -188,16 +183,13 @@ def fill_matricies_with_smoother_data(df):
     
 def fill_matricies_with_kMeansCluster_data(df):
 
-    # The first step is to create a list of empty matrices, one for each parameter, of the correct size.
-    # Same procedure as the previous function to collect close points.
-    # Then the cluster algorithm is iterated both on the original data and on the DF of the close points. 
-    # Finally, for each parameter, two matrices representing the results of the cluster are filled.
-    
-    # The only argument required is the DataFrame (df)
+    #Same procedure as the previous function to collect close points.
+    #Then the cluster algorithm is iterated both on the original data and on the DF of the close points. 
+    #Finally, for each parameter, two matrices representing the results of the cluster are filled.
     
     m = []  
-    max_x=max(data.loc[:,'X'])+1
-    max_y=max(data.loc[:,'Y'])+1 
+    max_x=max(data['X'])+1
+    max_y=max(data['Y'])+1  
         
     for i in range(2*Num_of_parameters):
    
@@ -207,8 +199,8 @@ def fill_matricies_with_kMeansCluster_data(df):
     
     for j in tqdm(range(len(data))):
         
-        xp = data.loc[j,'X'] 
-        yp = data.loc[j,'Y']
+        xp = df.loc[j,'X'] 
+        yp = df.loc[j,'Y']
     
         parda = get_close_points(data, xp, yp, radius = 2)
         parda = pd.DataFrame(parda)
@@ -221,8 +213,8 @@ def fill_matricies_with_kMeansCluster_data(df):
     
     for l in tqdm(range(len(data))):
                 
-        xp = data.loc[l,'X'] 
-        yp = data.loc[l,'Y']
+        xp = df.loc[l,'X'] 
+        yp = df.loc[l,'Y']
         
         for n in range(Num_of_parameters):
 
@@ -233,16 +225,13 @@ def fill_matricies_with_kMeansCluster_data(df):
    
 def fill_matricies_with_gmmCluster_data(df):
     
-    # The first step is to create a list of empty matrices, one for each parameter, of the correct size.
-    # Same procedure as the previous function to collect close points.
-    # Then the cluster algorithm is iterated both on the original data and on the DF of the close points. 
-    # Finally, for each parameter, two matrices representing the results of the cluster are filled.
-    
-    # The only argument required is the DataFrame (df)
+    #Same procedure as the previous function to collect close points.
+    #Then the cluster algorithm is iterated both on the original data and on the DF of the close points. 
+    #Finally, for each parameter, two matrices representing the results of the cluster are filled.
     
     m = []  
-    max_x=max(data.loc[:,'X'])+1
-    max_y=max(data.loc[:,'Y'])+1 
+    max_x=max(data['X'])+1
+    max_y=max(data['Y'])+1 
         
     for i in range(2*Num_of_parameters):
    
@@ -252,8 +241,8 @@ def fill_matricies_with_gmmCluster_data(df):
 
     for j in tqdm(range(len(data))):
         
-        xp = data.loc[j,'X'] 
-        yp = data.loc[j,'Y']
+        xp = df.loc[j,'X'] 
+        yp = df.loc[j,'Y']
     
         parda = get_close_points(data, xp, yp, radius = 2)
         parda = pd.DataFrame(parda)
@@ -266,8 +255,8 @@ def fill_matricies_with_gmmCluster_data(df):
         
     for l in tqdm(range(len(data))):
                 
-        xp = data.loc[l,'X'] 
-        yp = data.loc[l,'Y']
+        xp = df.loc[l,'X'] 
+        yp = df.loc[l,'Y']
         
         for n in range(Num_of_parameters):
 
@@ -278,8 +267,7 @@ def fill_matricies_with_gmmCluster_data(df):
 
 def print_original_images(m):           
 
-    # Generates subplots for matricies that show the original values for every parameters.
-    # The only argument required is the list of the corresponding matricies.
+    #Generates subplots for matricies that show the original values for every parameters
     
     fig = plt.figure(figsize=(15, 25))
     ax = []
@@ -301,9 +289,8 @@ def print_original_images(m):
         
 def print_smoother_images(m):           
 
-    # Generates subplots for matricies that show the avaraged values for every parameters
-    # The only argument required is the list of the corresponding matricies.
-    
+    #Generates subplots for matricies that show the avaraged values for every parameters
+  
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
@@ -324,9 +311,8 @@ def print_smoother_images(m):
 
 def print_kMeansCluster_images(m):          
 
-    # Generates subplots for matricies that show the K-Means clustering results on original data    
-    # The only argument required is the list of the corresponding matricies.
-    
+    #Generates subplots for matricies that show the K-Means clustering results on original data    
+
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
@@ -347,8 +333,8 @@ def print_kMeansCluster_images(m):
 
 def print_kMeansCluster_AveragedImages(m):
     
-    # Generates subplots for matricies that show the K-Means clustering results on averaged data    
-    # The only argument required is the list of the corresponding matricies.
+    #Generates subplots for matricies that show the K-Means clustering results on averaged data    
+
     
     fig = plt.figure(figsize=(15, 25))
     ax = []
@@ -370,8 +356,7 @@ def print_kMeansCluster_AveragedImages(m):
         
 def print_gmmCluster_images(m):           
 
-    # Generates subplots for matricies that show the GMM clustering results on original data    
-    # The only argument required is the list of the corresponding matricies.
+    #Generates subplots for matricies that show the GMM clustering results on original data    
     
     fig = plt.figure(figsize=(15, 25))
     ax = []
@@ -383,7 +368,7 @@ def print_gmmCluster_images(m):
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
     
-        plt.imshow(m[Num_of_parameters + i])
+        plt.imshow(m[i])
 
     ax[0].set_title("GMM Cluster Alfa results")        
     ax[1].set_title("GMM Cluster Beta results")        
@@ -393,9 +378,8 @@ def print_gmmCluster_images(m):
 
 def print_gmmCluster_AveragedImages(m):
     
-    # Generates subplots for matricies that show the GMM clustering results on averaged data    
-    # The only argument required is the list of the corresponding matricies.
-    
+    #Generates subplots for matricies that show the GMM clustering results on averaged data    
+ 
     fig = plt.figure(figsize=(15, 25))
     ax = []
 
@@ -406,7 +390,7 @@ def print_gmmCluster_AveragedImages(m):
         ax[-1].set_xlabel('X')
         ax[-1].set_ylabel('Y')    
     
-        plt.imshow(m[Num_of_parameters + i])
+        plt.imshow(m[i])
     
     ax[0].set_title("GMM Cluster Averaged Alfa results")        
     ax[1].set_title("GMM Cluster Averaged Beta results")        
@@ -414,19 +398,14 @@ def print_gmmCluster_AveragedImages(m):
 
     return ax
     
-check = check_correct_coordinates(data)
+check_correct_coordinates(data)
+print_original_images(fill_matricies_with_original_data(data))
+print_smoother_images(fill_matricies_with_smoother_data(data))
+print_kMeansCluster_images(fill_matricies_with_kMeansCluster_data(data))
+print_gmmCluster_images(fill_matricies_with_gmmCluster_data(data))
+print_kMeansCluster_AveragedImages(fill_matricies_with_kMeansCluster_data(data))
+print_gmmCluster_AveragedImages(fill_matricies_with_gmmCluster_data(data))
 
-if check == True:
-
-    print_original_images(fill_matricies_with_original_data(data))
-    print_smoother_images(fill_matricies_with_smoother_data(data))
-    print_kMeansCluster_images(fill_matricies_with_kMeansCluster_data(data))
-    print_gmmCluster_images(fill_matricies_with_gmmCluster_data(data))
-    print_kMeansCluster_AveragedImages(fill_matricies_with_kMeansCluster_data(data))
-    print_gmmCluster_AveragedImages(fill_matricies_with_gmmCluster_data(data))
-
-else:
-    raise ValueError("Position data must be positive integer number")
 
 
 
