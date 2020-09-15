@@ -47,6 +47,8 @@ Two essential *preliminary steps* are required:
    - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated, and an excel Example.xlsx file is loaded, to illustrate the operations).
     
    - Count the number of parameters you want to visualize.
+   
+   - Create a list with the name of the columns containing the parameters.
     
   
 ```
@@ -61,6 +63,10 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
 
     #Number of parameters
 Num_of_parameters = (len(data.iloc[0,:]) - 2)
+
+    #List with columns names
+Columns_name = ['Alfa','Beta','Gamma']
+
 ```
 The file inside the repository, Project.py, refers to a Dataframe like the one created in the example above, which presents the coordinates in the columns called 'X' and 'Y' and the parameters in those called 'Alpha' 'Beta' 'Gamma' . To use the functions with any other Dataframe, simply replace these names with those present in it.
 
