@@ -37,24 +37,22 @@ def test_check_correct_coordinates():
 def test_get_close_points():
     
     # Testing get_close_points function gives correct number of close points for ad hoc DataFrame:
-    # the first 3 points of dfcp (0,1)(1,0)(1,1) are within get_close_points radius, the last (4,5) is not. 
+    # the first 3 points of dfcp (0,1)(1,0)(1,1) are within get_close_points with radius = 2 
+    # the lasts two (4,5) (12, 33) are not. 
+    # Whereas with radius = 6 only the last point is outside the acceptance region.
     
-    dfcp = pd.DataFrame({'X' : [0,1,1,4], 'Y' : [1,0,1,5], 'test_value' : [9, 10, 11, 12]})
-    
-    l = []
-    
-    for i in range(len(dfcp)):    
-        x = dfcp.iloc[0:1, 0:1]
-        y = dfcp.iloc[0:1, 1:2]
+    dfcp = pd.DataFrame({'X' : [0,1,1,4,12], 'Y' : [1,0,1,5,33], 'test_value' : [9, 10, 11, 12, 13]})
+     
+    x = dfcp.iloc[0:1, 0:1]
+    y = dfcp.iloc[0:1, 1:2]
         
-        r2 = get_close_points(dfcp, x, y, radius = 2)
-        l.append(r2)
+    r2 = get_close_points(dfcp, x, y, radius = 2)
         
-        r6 = get_close_points(dfcp, x, y, radius = 6)
-        l.append(r6)
+    r6 = get_close_points(dfcp, x, y, radius = 6)
+
         
-    assert len(l[0]) == 3
-    assert len(l[1]) == 4
+    assert len(r2) == 3
+    assert len(r6) == 4
         
     
 def test_k_means_cluster():
