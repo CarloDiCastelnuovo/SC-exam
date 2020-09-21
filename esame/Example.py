@@ -9,11 +9,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from provaFunctions import check_correct_coordinates, k_means_cluster, gmm_cluster
-from provaFunctions import fill_matricies_with_original_data, fill_matricies_with_smoother_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
-from provaFunctions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData
+from Functions import check_correct_coordinates
+from Functions import fill_matricies_with_original_data, fill_matricies_with_smooth_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
+from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData
     
-#Example of a correct DataFrame
+    #Example of a correct DataFrame
 data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
     #Example of an incorrect DataFrame
@@ -24,23 +24,11 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
 
 check_correct_coordinates(data)
 
-km = k_means_cluster(data, 2, 'Alfa')   
-gmm = gmm_cluster(data, 2, 'Alfa')
-
-od = fill_matricies_with_original_data(data, 'Alfa')
-sd = fill_matricies_with_smoother_data(data, 'Alfa') 
-
-kmd = fill_matricies_with_kMeansCluster_data(data, km) 
-gmmd = fill_matricies_with_gmmCluster_data(data, gmm)
-
-km_av = fill_matricies_with_kMeansCluster_AveragedData(data, km)
-gmm_av = fill_matricies_with_gmmCluster_AveragedData(data, gmm)
-
-def print_images(m):           
+def print_images(m, title):           
 
     #Generates subplots for matricies that show the original values for every parameters
     
-    fig = plt.figure(figsize=(15, 25))
+    fig = plt.figure(figsize=(5, 10))
     ax = []
     
     ax.append( fig.add_subplot(1, 1, 1) )
@@ -48,23 +36,32 @@ def print_images(m):
     ax[-1].set_xlabel('X')
     ax[-1].set_ylabel('Y')    
     
-    plt.imshow(m[0])
+    plt.imshow(m)
         
-    ax[0].set_title(" Values")
+    ax[0].set_title(title)
     
 
+od_gamma = fill_matricies_with_original_data(data, 'Gamma')
+sd_gamma = fill_matricies_with_smooth_data(data, 'Gamma') 
     
-print_images(od) 
+print_images(od_gamma, 'Gamma Values') 
+print_images(sd_gamma, 'Smoothed Gamma Values') 
 
-print_images(sd) 
-    
-print_images(kmd) 
-    
-print_images(gmmd)
 
-print_images(km_av)
 
-print_images(gmm_av) 
-    
+km_mat_alfa = fill_matricies_with_kMeansCluster_data(data, 'Alfa', 2) 
+gmm_mat_alfa = fill_matricies_with_gmmCluster_data(data, 'Alfa', 2)
+
+print_images(km_mat_alfa, 'K-Means Alfa Results')     
+print_images(gmm_mat_alfa, 'GMM Alfa Results')
+
+
+
+km_av_mat_beta = fill_matricies_with_kMeansCluster_AveragedData(data, 'Beta', 3) 
+gmm_av_mat_beta = fill_matricies_with_gmmCluster_AveragedData(data, 'Beta', 3)
+
+print_images(km_av_mat_beta, 'K-Means Smoothed Beta Results')
+print_images(gmm_av_mat_beta, 'GMM Smoothed Beta Results') 
+
     
     
