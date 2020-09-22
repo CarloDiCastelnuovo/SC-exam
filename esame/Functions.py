@@ -125,7 +125,7 @@ def fill_matricies_with_original_data(df, col_name):
     
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be clustered
+        a,b: numerical indices of the column to be clustered
     
     Return:
         mat: the filled matrix
@@ -314,7 +314,7 @@ def fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
                  
     return mat
 
-def print_images(m, title):           
+def print_images(mat, title):           
 
     """
     Generates subplot from passed matrix with the possibility to set title as an argument
@@ -332,7 +332,7 @@ def print_images(m, title):
     ax[-1].set_xlabel('X')
     ax[-1].set_ylabel('Y')    
     
-    plt.imshow(m)
+    plt.imshow(mat)
         
     ax[0].set_title(title)
 

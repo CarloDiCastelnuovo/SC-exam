@@ -35,11 +35,12 @@ def test_check_correct_coordinates():
     
 
 def test_get_close_points():
-    
-    # Testing get_close_points function gives correct number of close points for ad hoc DataFrame:
-    # the first 3 points of dfcp (0,1)(1,0)(1,1) are within get_close_points with radius = 2 
-    # the lasts two (4,5) (12, 33) are not. 
-    # Whereas with radius = 6 only the last point is outside the acceptance region.
+    """
+    Testing get_close_points function gives correct number of close points for ad hoc DataFrame:
+    the first 3 points of dfcp (0,1)(1,0)(1,1) are within get_close_points with radius = 2 
+    the lasts two (4,5) (12, 33) are not. 
+    Whereas with radius = 6 only the last point is outside the acceptance region.
+    """
     
     dfcp = pd.DataFrame({'X' : [0,1,1,4,12], 'Y' : [1,0,1,5,33], 'test_value' : [9, 10, 11, 12, 13]})
      
@@ -57,35 +58,41 @@ def test_get_close_points():
     
 def test_k_means_cluster():
     
-    # Testing k_means_cluster generate a cluster label for every dataframe point.
-    # The labels are integer number starting from 0, thus for nc = 2 we aspect labels made by 0 or 1
-    # for nc = 4 we aspect labels made by (0,1,2,3)
+    """
+    Testing k_means_cluster generate a cluster label for every dataframe point.
+    The labels are integer number starting from 0, thus for nc = 2 we aspect labels made by 0 or 1
+    for nc = 4 we aspect labels made by (0,1,2,3)
     
+    """
     x = k_means_cluster(df1, 2, 3 , 2)
 
     assert len(x.stack()) == len(df1)
     
-    assert np.max(x.all()) <= 1
+    assert np.min(x.values) == 0
+    assert np.max(x.values) == 1
     
-    x = k_means_cluster(df1,  2, 3, 4)
+    x = k_means_cluster(df1, 2, 3, 4)
     
-    assert np.min(x.all()) == 0
-    assert np.max(x.all()) == 3
+    assert np.min(x.values) == 0
+    assert np.max(x.values) == 3
     
 
 def test_gmm_cluster():
     
-    # Testing gmm_cluster generate a cluster label for every dataframe point
-    # The labels are integer number starting from 0, thus for nc = 2 we aspect labels made by 0 or 1
-    # for nc = 4 we aspect labels made by (0,1,2,3)
+    """
+     Testing gmm_cluster generate a cluster label for every dataframe point
+     The labels are integer number starting from 0, thus for nc = 2 we aspect labels made by 0 or 1
+     for nc = 4 we aspect labels made by (0,1,2,3)
+    """
     
     x = gmm_cluster(df1, 2, 3, 2)
    
     assert len(x.stack()) == len(df1)
        
-    assert np.max(x.all()) <= 1
+    assert np.min(x.values) == 0
+    assert np.max(x.values) == 1
     
     x = gmm_cluster(df1, 2, 3, 4)
     
-    assert np.max(x.all()) == 3
-    assert np.min(x.all()) == 0
+    assert np.max(x.values) == 3
+    assert np.min(x.values) == 0

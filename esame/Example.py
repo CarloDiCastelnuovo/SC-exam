@@ -12,7 +12,7 @@ from Functions import fill_matricies_with_original_data, fill_matricies_with_smo
 from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData, check_correct_coordinates, print_images
     
     #Example of a correct DataFrame
-data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+data = pd.DataFrame(np.random.randint(1,100,size=(1000, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
     #Example of an incorrect DataFrame
 #data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
@@ -22,7 +22,7 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
 
 check_correct_coordinates(data)
 
-
+print(data.head())
 
 od_gamma = fill_matricies_with_original_data(data, 'Gamma')
 sd_gamma = fill_matricies_with_smooth_data(data, 'Gamma') 
