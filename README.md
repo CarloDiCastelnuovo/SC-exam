@@ -83,14 +83,14 @@ from sklearn.mixture import GaussianMixture
 6. print_images(m, title)
 
 
-## 1. check_correct_coordinates(df)
+### 1. check_correct_coordinates(df)
 The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the columns containing positional data (here called **X** and **Y** respectivelly) have or not positive integer values, which correspond to the positional index on the matrices. 
 
 - df: the only argument it receives is the DataFrame to check.
 
 It returns True in case of correct coordinates and False for incorrect ones.
 
-## 2. get_close_points(df, x, y, radius=2)
+### 2. get_close_points(df, x, y, radius=2)
 The aim of this function is to collect the points within a radius, whose length can be modified in its definition, for each pixel of the image.
 
 - df: is a DataFrame like the one described above.
@@ -99,7 +99,7 @@ The aim of this function is to collect the points within a radius, whose length 
 
 It returns a dataframe cointaining the points within the radius.
 
-## 3. k_means_cluster(df, a, b, nc)
+### 3. k_means_cluster(df, a, b, nc)
 The function to collect the labels for K-Means clustering.
 
 - df: is a DataFrame like the one described above.
@@ -108,7 +108,7 @@ The function to collect the labels for K-Means clustering.
 
 It returns dataframe cointaining the labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel.
 
-## 4. gmm_cluster(df, a, b, nc)
+### 4. gmm_cluster(df, a, b, nc)
 The function to collect the labels for GMM clustering.
 
 - df: is a DataFrame like the one described above.
@@ -117,7 +117,7 @@ The function to collect the labels for GMM clustering.
 
 It returns a list of labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel
 
-## 5. fill_matricies_with_original_data(df, col_name)
+### 5. fill_matricies_with_original_data(df, col_name)
 Here we start to build the images: first of all the function creates a matrix reading the size of the images from the maximum value of the coordinate columns; then it scrolls the position data one by one by entering the respective value for each pair of points.
 
 - df: is a DataFrame like the one described above.
@@ -125,7 +125,7 @@ Here we start to build the images: first of all the function creates a matrix re
 
 It returns the filled matrix.
 
-## 6. fill_matricies_with_smoother_data(df, col_name)
+### 6. fill_matricies_with_smoother_data(df, col_name)
 Similarly to the previous function, it creates the matrix and collects data on the positions, but here for each pair the neighboring points are calculated by calling the function get_close_points(), from whose result the average value is calculated and substituted for the initial pixel.
 
 - df: is a DataFrame like the one described above.
@@ -133,8 +133,8 @@ Similarly to the previous function, it creates the matrix and collects data on t
 
 It returns the filled matrix.
 
-## 7. fill_matricies_with_kMeansCluster_data(df, a, b, nc)
-## 8. fill_matricies_with_gmmCluster_data(df, a, b, nc)
+### 7. fill_matricies_with_kMeansCluster_data(df, a, b, nc)
+### 8. fill_matricies_with_gmmCluster_data(df, a, b, nc)
 Similarly to the previous function, they create the matrix and collects data on the positions, but here these functions call the k_means_cluster() and gmm_cluster() functions to collect the cluster labels to be assigned to the respective coordinates.
 
 - df: is a DataFrame like the one described above.
@@ -143,8 +143,8 @@ Similarly to the previous function, they create the matrix and collects data on 
 
 They return the matrcies filled with labels.
 
-## 9. fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
-## 10. fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
+### 9. fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
+### 10. fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
 Similarly to the previous function, they create the matrix and collects data on the positions, but here these functions firstly call the get_close_points function to generate the dataframe containing the data to be clustered via the apposite functions.
 
 - df: is a DataFrame like the one described above.
@@ -153,7 +153,7 @@ Similarly to the previous function, they create the matrix and collects data on 
 
 They return the matrcies filled with labels.
 
-## 11. print_images(mat, title)
+### 11. print_images(mat, title)
 Simply takes a matrix and plot it setting axis labels.
 
 -mat: matrix to be plotted.
@@ -167,7 +167,7 @@ from Functions import fill_matricies_with_original_data, fill_matricies_with_smo
 from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData, check_correct_coordinates, print_images
     
     #Example of a correct DataFrame
-data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+data = pd.DataFrame(np.random.randint(1,100,size=(1000, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
     #Example of an incorrect DataFrame
 #data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
