@@ -241,4 +241,4 @@ If we run Test.py we can see the first 5 columns of the correct DataFrame. To pe
 that will give us **4 passed** as result.
 
 ###### About time
-For a 3500 long DataFrame with 2 columns of data the program takes 30 second to print the whole set of subplots.  
+For a 1000 long DataFrame like the one in the Example.py file the programm takes about 15 seconds to print the 6 subplots.  
