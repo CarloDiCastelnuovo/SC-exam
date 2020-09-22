@@ -187,7 +187,7 @@ sd_gamma = fill_matricies_with_smooth_data(data, 'Gamma')
 print_images(od_gamma, 'Gamma Values') 
 print_images(sd_gamma, 'Smoothed Gamma Values')
 ```
-and by the indices for the functions regarding clustering
+and by the indices for the functions regarding clustering: the indices for the columns in a pandas dataframe are indicated with a couple of integer numbers starting from 0,1 for the first one; so in the case of the 'Alfa' column the indices will be 2, 3:
 ```
 km_mat_alfa = fill_matricies_with_kMeansCluster_data(data, 2, 3, 2) 
 gmm_mat_alfa = fill_matricies_with_gmmCluster_data(data, 2, 3, 2)
@@ -205,7 +205,7 @@ print_images(gmm_av_mat_beta, 'GMM Smoothed Beta Results')
 ```
 
 
-# Test
+# Test.py
 To test the efficency of our code there is an additional file called Test.py.
 
 This test code stars importing 2 libreries, pandas and numpy that we already know. Then the functions to be tested are imported from the main code.
@@ -226,25 +226,19 @@ print("\nCorrect DataFrame shape df1: \n\n",df1.head())
 Tests that the check function of main code return True with df1 and False with df2 and df3.
 
 - **2. test_get_close_points():**
-Tests that with a build-in DataFrame with 3 out of 4 close points the get_close_points() function collect them correctly.
+Tests that with a build-in DataFrame the get_close_points() function collects points correctly: running the function with increasing radius will give us a larger number of "close points"
 
 - **3. test_k_means_cluster():**
-Test that a cluster label for every dataframe point is generated for both methods.
+Test that a cluster label for every dataframe point is generated. Moreover tests that with different number of clusters as a parameter (nc=2, nc=4,...) the numbers that represent the labels increase.
 
 - **4. test_gmm_cluster():**
-Test that a cluster label for every dataframe point is generated for both methods.
-
-- **5. test_fill():**
-Uses all the fill functions and verifies that a matrix for every configuration is generated.
-
-- **6. test_print():**
-Uses all the print functions and verifies that a subplot for every matrix is generated.
+Test that a cluster label for every dataframe point is generated. Moreover tests that with different number of clusters as a parameter (nc=2, nc=4,...) the numbers that represent the labels increase.
 
 If we run Test.py we can see the first 5 columns of the correct DataFrame. To perform the test we need to enter on the Python console the command line:
 ```
 ! pytest Test.py
 ```
-that will give us **6 passed** as result.
+that will give us **4 passed** as result.
 
 ###### About time
 For a 3500 long DataFrame with 2 columns of data the program takes 30 second to print the whole set of subplots.  
