@@ -42,68 +42,46 @@ Disadvantages:
 2. Difficult to interpret.
 
 
-Three essential *preliminary steps* are required:
+There are three Python files in the repository:
+- Functions: the library that contains the functions which, once imported, allow you to create the various images.
+
+- Example: the file showing how to use the library functions.
+
+- Test: the file that tests the efficiency of the library functions.
     
-   - Upload the DataFrame, which through the Pandas library can be carried out in different ways (in the Project.py file a correct and an incorrect one are generated, and an excel Example.xlsx file is loaded, to illustrate the operations).
-    
-   - Count the number of parameters you want to visualize.
-   
-   - Create a list with the name of the columns containing the parameters.
-    
-  
-```
-    #Example of a correct DataFrame
-data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+  # Functions.py
 
-    #Example of an incorrect DataFrame
-#data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
-
-    #Example of upload by excel file
-#data = pd.read_excel("c:/Users/Desktop/any_file_path/Example.xlsx")
-
-    #Number of parameters
-Num_of_parameters = (len(data.iloc[0,:]) - 2)
-
-    #List with columns names
-Columns_name = ['Alfa','Beta','Gamma']
-
-```
-The file inside the repository, Project.py, refers to a Dataframe like the one created in the example above, which presents the coordinates in the columns called 'X' and 'Y' and the parameters in those called 'Alpha' 'Beta' 'Gamma' . To use the functions with any other Dataframe, simply replace these names with those present in it.
-
-# Import
+## Import
 To run the code we need 5 indispensable libraries and an optional one:
 
 ```
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 from sklearn import cluster
 from sklearn.mixture import GaussianMixture
 
-from tqdm import tqdm
 ```
 **pandas** for the DataFrames, **numpy** for mathematical operations, **matplotlib.pyplot** to show the subplots, **sklearn** for the two clusters functions and **tqdm** if we want to take trace of our cicles.
 
 
-# Functions
+## Functions
 
 1. check_correct_coordinates(df)
 2. get_close_points(df, x, y, radius = 2)
-3. k_means_cluster(df, nc = 2)
-4. gmm_cluster(df, nc = 2)
+3. k_means_cluster(df, a, b, nc)
+4. gmm_cluster(df, a, b, nc)
 5. fill_functions
-    - fill_matricies_with_original_data(df)
-    - fill_matricies_with_smoother_data(df)
-    - fill_matricies_with_kMeansCluster_data(df)
-    - fill_matricies_with_gmmCluster_data(df)
+    - fill_matricies_with_original_data(df, col_name)
+    - fill_matricies_with_smoother_data(df, col_name)
+    - fill_matricies_with_kMeansCluster_data(df, a, b, nc)
+    - fill_matricies_with_gmmCluster_data(df,a, b, nc)
+    - fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc)
+    - fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc)
  
-6. print_functions
-    - print_original_images(m)
-    - print_smoother_images(m) 
-    - print_kMeansCluster_images(m)
-    - print_kMeansCluster_AveragedImages(m)
-    - print_gmmCluster_images(m)
-    - print_gmmCluster_AveragedImage(m)
+6. print_images(m, title)
+
 
 ## 1. check_correct_coordinates(df)
 The first function is a control function aimed to verify that the DataFrame is correctly organized, checking whether the columns containing positional data (here called **X** and **Y** respectivelly) have or not positive integer values, which correspond to the positional index on the matrices. 
@@ -119,48 +97,112 @@ The aim of this function is to collect the points within a radius, whose length 
 - x, y: the pixel coordinates from where the function will start to compute the distance.
 - radius: radius of my acceptance circumference
 
-It returns the list of points within the radius.
+It returns a dataframe cointaining the points within the radius.
 
-## 3. k_means_cluster(df, nc = 2)
+## 3. k_means_cluster(df, a, b, nc)
 The function to collect the labels for K-Means clustering.
 
 - df: is a DataFrame like the one described above.
-- nc: is the number of clusters we want, definible in its definition.
+- a,b: numerical indices of the column to be clustered.
+- nc: is the number of clusters we want.
 
-It returns a list of labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel.
+It returns dataframe cointaining the labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel.
 
-## 4. gmm_cluster(df, nc = 2)
+## 4. gmm_cluster(df, a, b, nc)
 The function to collect the labels for GMM clustering.
 
 - df: is a DataFrame like the one described above.
-- nc: is the number of clusters we want, definible in its definition.
+- a,b: numerical indices of the column to be clustered.
+- nc: is the number of clusters desired.
 
 It returns a list of labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel
 
-## 5. fill_matricies_with_original_data(df)
-Here we start to build the images: first of all the function creates a list of empty matricies one for each parameter, reading the size of the images from the maximum value of the coordinate columns; then it scrolls the position data one by one by entering the respective value for each pair of points.
+## 5. fill_matricies_with_original_data(df, col_name)
+Here we start to build the images: first of all the function creates a matrix reading the size of the images from the maximum value of the coordinate columns; then it scrolls the position data one by one by entering the respective value for each pair of points.
 
 - df: is a DataFrame like the one described above.
+- col_name: is the name of the column to be displyed.
 
-It returns the list of filled matrcies.
+It returns the filled matrix.
 
-## 6. fill_matricies_with_smoother_data(df)
-Similarly to the previous function, it creates the matrices and collects data on the positions, but here for each pair the neighboring points are calculated by calling the function get_close_points(), from whose result the average value is calculated and substituted for the initial pixel.
-
-- df: is a DataFrame like the one described above.
-
-It returns the list of filled matrcies.
-
-## 7. fill_matricies_with_kMeansCluster_data(df)
-## 8. fill_matricies_with_gmmCluster_data(df)
-Those functions call the k_means_cluster() and gmm_cluster() functions to collect the cluster labels for both single value pixels (passing the original DataFrame as an argument) and averaged pixels (passing the DataFrame previously created with the get_close_points() function).
+## 6. fill_matricies_with_smoother_data(df, col_name)
+Similarly to the previous function, it creates the matrix and collects data on the positions, but here for each pair the neighboring points are calculated by calling the function get_close_points(), from whose result the average value is calculated and substituted for the initial pixel.
 
 - df: is a DataFrame like the one described above.
+- col_name: is the name of the column to be displyed.
 
-They return the lists of matrcies filled with labels.
+It returns the filled matrix.
 
-## 9. print_functions(m)
-All the 6 print functions work similarly: they take as unique parameter a list, returned by the corresponding fill_functions. Then a list of subplots is filled with a small for-cycle on the number of parameters. Finally, the images are printed with titles and axis labels.
+## 7. fill_matricies_with_kMeansCluster_data(df, a, b, nc)
+## 8. fill_matricies_with_gmmCluster_data(df, a, b, nc)
+Similarly to the previous function, they create the matrix and collects data on the positions, but here these functions call the k_means_cluster() and gmm_cluster() functions to collect the cluster labels to be assigned to the respective coordinates.
+
+- df: is a DataFrame like the one described above.
+- a,b: numerical indices of the column to be clustered.
+- nc: is the number of clusters desired.
+
+They return the matrcies filled with labels.
+
+## 9. fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
+## 10. fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
+Similarly to the previous function, they create the matrix and collects data on the positions, but here these functions firstly call the get_close_points function to generate the dataframe containing the data to be clustered via the apposite functions.
+
+- df: is a DataFrame like the one described above.
+- a,b: numerical indices of the column to be clustered.
+- nc: is the number of clusters desired.
+
+They return the matrcies filled with labels.
+
+## 11. print_images(mat, title)
+Simply takes a matrix and plot it setting axis labels.
+
+-mat: matrix to be plotted.
+-title: a string containing the title of the plot.
+
+# Example.py
+This file shows how to import the functions and the data to generate the images:
+
+```
+from Functions import fill_matricies_with_original_data, fill_matricies_with_smooth_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
+from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData, check_correct_coordinates, print_images
+    
+    #Example of a correct DataFrame
+data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
+    #Example of an incorrect DataFrame
+#data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+
+    #Example of upload by excel file
+#data = pd.read_excel("c:/Users/Desktop/any_file_path/Example.xlsx")
+
+print(data.head())
+
+```
+Here is shown how to generate two random dataframe and how to upload one. The beginning of the correct one is printed as a further demonstration.
+Then all the fill functions of the library are called with respective arguments, in the example the random generated dataframe is used. Every fill function works independently  on a single column, calling it by the name for the first two function 
+```
+od_gamma = fill_matricies_with_original_data(data, 'Gamma')
+sd_gamma = fill_matricies_with_smooth_data(data, 'Gamma') 
+    
+print_images(od_gamma, 'Gamma Values') 
+print_images(sd_gamma, 'Smoothed Gamma Values')
+```
+and by the indices for the functions regarding clustering
+```
+km_mat_alfa = fill_matricies_with_kMeansCluster_data(data, 2, 3, 2) 
+gmm_mat_alfa = fill_matricies_with_gmmCluster_data(data, 2, 3, 2)
+
+print_images(km_mat_alfa, 'K-Means Alfa Results')     
+print_images(gmm_mat_alfa, 'GMM Alfa Results')
+
+
+
+km_av_mat_beta = fill_matricies_with_kMeansCluster_AveragedData(data, 3, 4, 3) 
+gmm_av_mat_beta = fill_matricies_with_gmmCluster_AveragedData(data, 3, 4, 3)
+
+print_images(km_av_mat_beta, 'K-Means Smoothed Beta Results')
+print_images(gmm_av_mat_beta, 'GMM Smoothed Beta Results') 
+```
 
 
 # Test
