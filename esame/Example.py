@@ -7,11 +7,9 @@ Created on Tue Sep 15 17:57:04 2020
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
-from Functions import check_correct_coordinates
 from Functions import fill_matricies_with_original_data, fill_matricies_with_smooth_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
-from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData
+from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData, check_correct_coordinates, print_images
     
     #Example of a correct DataFrame
 data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
@@ -24,22 +22,7 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
 
 check_correct_coordinates(data)
 
-def print_images(m, title):           
 
-    #Generates subplots for matricies that show the original values for every parameters
-    
-    fig = plt.figure(figsize=(5, 10))
-    ax = []
-    
-    ax.append( fig.add_subplot(1, 1, 1) )
-    
-    ax[-1].set_xlabel('X')
-    ax[-1].set_ylabel('Y')    
-    
-    plt.imshow(m)
-        
-    ax[0].set_title(title)
-    
 
 od_gamma = fill_matricies_with_original_data(data, 'Gamma')
 sd_gamma = fill_matricies_with_smooth_data(data, 'Gamma') 
@@ -49,16 +32,16 @@ print_images(sd_gamma, 'Smoothed Gamma Values')
 
 
 
-km_mat_alfa = fill_matricies_with_kMeansCluster_data(data, 'Alfa', 2) 
-gmm_mat_alfa = fill_matricies_with_gmmCluster_data(data, 'Alfa', 2)
+km_mat_alfa = fill_matricies_with_kMeansCluster_data(data, 2, 3, 2) 
+gmm_mat_alfa = fill_matricies_with_gmmCluster_data(data, 2, 3, 2)
 
 print_images(km_mat_alfa, 'K-Means Alfa Results')     
 print_images(gmm_mat_alfa, 'GMM Alfa Results')
 
 
 
-km_av_mat_beta = fill_matricies_with_kMeansCluster_AveragedData(data, 'Beta', 3) 
-gmm_av_mat_beta = fill_matricies_with_gmmCluster_AveragedData(data, 'Beta', 3)
+km_av_mat_beta = fill_matricies_with_kMeansCluster_AveragedData(data, 3, 4, 3) 
+gmm_av_mat_beta = fill_matricies_with_gmmCluster_AveragedData(data, 3, 4, 3)
 
 print_images(km_av_mat_beta, 'K-Means Smoothed Beta Results')
 print_images(gmm_av_mat_beta, 'GMM Smoothed Beta Results') 

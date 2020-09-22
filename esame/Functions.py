@@ -10,6 +10,7 @@ import numpy as np
 from sklearn import cluster
 from sklearn.mixture import GaussianMixture
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 
 def check_correct_coordinates(df):
@@ -54,8 +55,8 @@ def get_close_points(df, x, y, radius = 2):
     if radius < 0:
         raise ValueError('Radius value must be greater than zero')
         
-    x_idx = df['X']
-    y_idx = df['Y']
+    x_idx = df.loc[:, 'X']
+    y_idx = df.loc[:, 'Y']
     dist_sqrd = (x_idx-x)**2 + (y_idx-y)**2
     to_take = np.sqrt(dist_sqrd) <= radius
     to_take = pd.DataFrame(to_take)
@@ -63,56 +64,56 @@ def get_close_points(df, x, y, radius = 2):
     return to_take
 
 
-def k_means_cluster(df, col_name, nc):
+def k_means_cluster(df, a, b, nc):
     
     """
     The function to collect the labels for K-Means clustering, coded by integer numbers
 
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be clustered
+        a,b: numerical indices of the column to be clustered
         nc: the number of clusters to be generated
         
     Return:
-        kml: a DataFrame containing the labels for each point orderd like the original df
+        kml: a DataFrame containing the labels for each point ordered like the original df
 
     """
     
     kml = []    
-    tofit = df.loc[:, col_name].values
+    tofit = df.iloc[:, a:b]
     km = cluster.KMeans(n_clusters = nc).fit(tofit)   
     labels_km = km.labels_ 
     kml.append(labels_km)
-    kml = pd.DataFrame(kml, columns = ['K-Means Labels'])
+    kml = pd.DataFrame(kml)
     
-    if len(kml) != len(df):
+    if len(kml.stack()) != len(df):
         raise ValueError('Cluster data must be same length as dataframe')
-    
+        
     return kml
 
 
-def gmm_cluster(df, col_name, nc):
+def gmm_cluster(df, a, b, nc):
 
     """
     The function to collect the labels for GMM clustering, coded by integer numbers
 
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be clustered
+        a,b: numerical indices of the column to be clustered
         nc: the number of clusters to be generated
         
     Return:
-        gmml: a DataFrame containing the labels for each point orderd like the original df
+        gmml: a DataFrame containing the labels for each point ordered like the original df
 
     """
     gmml = []
-    tofit = df.loc[:, col_name].values
+    tofit = df.iloc[:, a:b].values
     gmm = GaussianMixture(n_components = nc).fit(tofit)
     labels_gmm = gmm.predict(tofit)
     gmml.append(labels_gmm)   
-    gmml = pd.DataFrame(gmml, columns = ['GMM Labels'])
-        
-    if len(gmml) != len(df):
+    gmml = pd.DataFrame(gmml)
+
+    if len(gmml.stack()) != len(df):
         raise ValueError('Cluster data must be same length as dataframe')
                          
     return gmml
@@ -175,7 +176,7 @@ def fill_matricies_with_smooth_data(df, col_name):
     return mat
 
 
-def fill_matricies_with_kMeansCluster_data(df, col_name, nc):
+def fill_matricies_with_kMeansCluster_data(df, a, b, nc):
 
     """
     Creates an empty matrix and fills it with cluster labels 
@@ -183,7 +184,7 @@ def fill_matricies_with_kMeansCluster_data(df, col_name, nc):
     
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be clustered
+        a,b: numerical indices of the column to be clustered
         nc: the number of clusters to be generated
     
     Return:
@@ -196,7 +197,7 @@ def fill_matricies_with_kMeansCluster_data(df, col_name, nc):
     mat = np.empty((max_x,max_y))
     mat.fill(np.nan)            
     
-    kml = k_means_cluster(df, col_name, nc)
+    kml = k_means_cluster(df, a, b, nc)
         
     for l in tqdm(range(len(df))):
                 
@@ -206,7 +207,7 @@ def fill_matricies_with_kMeansCluster_data(df, col_name, nc):
                  
     return mat
 
-def fill_matricies_with_gmmCluster_data(df, col_name, nc):
+def fill_matricies_with_gmmCluster_data(df, a, b, nc):
 
     """
     Creates an empty matrix and fills it with cluster labels 
@@ -214,7 +215,7 @@ def fill_matricies_with_gmmCluster_data(df, col_name, nc):
     
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be clustered
+        a,b: numerical indices of the column to be clustered
         nc: the number of clusters to be generated
     
     Return:
@@ -226,7 +227,7 @@ def fill_matricies_with_gmmCluster_data(df, col_name, nc):
     mat = np.empty((max_x,max_y))
     mat.fill(np.nan)            
     
-    gmml = gmm_cluster(df, col_name, nc)
+    gmml = gmm_cluster(df, a, b, nc)
     
     for l in tqdm(range(len(df))):
                 
@@ -237,7 +238,7 @@ def fill_matricies_with_gmmCluster_data(df, col_name, nc):
     return mat
 
 
-def fill_matricies_with_kMeansCluster_AveragedData(df, col_name, nc):
+def fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
 
     """
     Creates an empty matrix and fills it with cluster labels returned by
@@ -245,7 +246,7 @@ def fill_matricies_with_kMeansCluster_AveragedData(df, col_name, nc):
     
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be clustered
+        a,b: numerical indices of the column to be clustered
         nc: the number of clusters to be generated
     
     Return:
@@ -264,7 +265,7 @@ def fill_matricies_with_kMeansCluster_AveragedData(df, col_name, nc):
         yp = df.loc[j,'Y']
         parda = get_close_points(df, xp, yp, radius = 2)
     
-    kma_av = k_means_cluster(parda, col_name, nc)  
+    kma_av = k_means_cluster(parda, a, b, nc)  
     
     for l in tqdm(range(len(df))):
                 
@@ -275,7 +276,7 @@ def fill_matricies_with_kMeansCluster_AveragedData(df, col_name, nc):
     return mat
 
 
-def fill_matricies_with_gmmCluster_AveragedData(df, col_name, nc):
+def fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
     
     """
     Creates an empty matrix and fills it with cluster labels returned by
@@ -283,7 +284,7 @@ def fill_matricies_with_gmmCluster_AveragedData(df, col_name, nc):
     
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be clustered
+        a,b: numerical indices of the column to be clustered
         nc: the number of clusters to be generated
     
     Return:
@@ -303,7 +304,7 @@ def fill_matricies_with_gmmCluster_AveragedData(df, col_name, nc):
         yp = df.loc[j,'Y']
         parda = get_close_points(df, xp, yp, radius = 2)
        
-    gmm_av = gmm_cluster(parda, col_name, nc)  
+    gmm_av = gmm_cluster(parda, a, b, nc)  
     
     for l in tqdm(range(len(df))):
                 
@@ -313,4 +314,25 @@ def fill_matricies_with_gmmCluster_AveragedData(df, col_name, nc):
                  
     return mat
 
+def print_images(m, title):           
+
+    """
+    Generates subplot from passed matrix with the possibility to set title as an argument
+    
+    Args:
+        m: the matrix containing the data to be plotted
+        title: the title of each plot
+    """
+    
+    fig = plt.figure(figsize=(5, 10))
+    ax = []
+    
+    ax.append(fig.add_subplot(1, 1, 1))
+    
+    ax[-1].set_xlabel('X')
+    ax[-1].set_ylabel('Y')    
+    
+    plt.imshow(m)
+        
+    ax[0].set_title(title)
 

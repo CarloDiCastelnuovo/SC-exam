@@ -9,7 +9,7 @@ Created on Wed Sep  9 12:05:29 2020
 import numpy as np
 import pandas as pd
 
-from Functions import check_correct_coordinates, get_close_points, k_means_cluster, gmm_cluster
+from esame.Functions import check_correct_coordinates, get_close_points, k_means_cluster, gmm_cluster
 
 # Generate 3 different DataFrame to test the functions, df1 has correct shape df2 and df3 have not
 
@@ -61,16 +61,16 @@ def test_k_means_cluster():
     # The labels are integer number starting from 0, thus for nc = 2 we aspect labels made by 0 or 1
     # for nc = 4 we aspect labels made by (0,1,2,3)
     
-    x = k_means_cluster(df1, 'test_value', 2)
+    x = k_means_cluster(df1, 2, 3 , 2)
 
-    assert len(x) == len(df1)
+    assert len(x.stack()) == len(df1)
     
-    assert np.max(x) <= 1
+    assert np.max(x.all()) <= 1
     
-    x = k_means_cluster(df1, 'test_value', 4)
+    x = k_means_cluster(df1,  2, 3, 4)
     
-    assert np.min(x) == 0
-    assert np.max(x) == 3
+    assert np.min(x.all()) == 0
+    assert np.max(x.all()) == 3
     
 
 def test_gmm_cluster():
@@ -79,13 +79,13 @@ def test_gmm_cluster():
     # The labels are integer number starting from 0, thus for nc = 2 we aspect labels made by 0 or 1
     # for nc = 4 we aspect labels made by (0,1,2,3)
     
-    x = gmm_cluster(df1,'test_value', 2)
+    x = gmm_cluster(df1, 2, 3, 2)
    
-    assert len(x) == len(df1)
+    assert len(x.stack()) == len(df1)
        
-    assert np.max(x) <= 1
+    assert np.max(x.all()) <= 1
     
-    x = gmm_cluster(df1,'test_value', 4)
+    x = gmm_cluster(df1, 2, 3, 4)
     
-    assert np.max(x) == 3
-    assert np.min(x) == 0
+    assert np.max(x.all()) == 3
+    assert np.min(x.all()) == 0
