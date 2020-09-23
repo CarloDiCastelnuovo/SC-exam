@@ -49,7 +49,7 @@ def get_close_points(df, x, y, radius = 2):
         radius: the length of the that defines the close points 
     
     Return:
-        to_take: a DataFrame containing the coordinates of close points 
+        to_take: a DataFrame containing neighboring points of (x,y) 
          
     """
     if radius < 0:
@@ -59,9 +59,10 @@ def get_close_points(df, x, y, radius = 2):
     y_idx = df.loc[:, 'Y']
     dist_sqrd = (x_idx-x)**2 + (y_idx-y)**2
     to_take = np.sqrt(dist_sqrd) <= radius
-    to_take = pd.DataFrame(to_take)
+    cp_df = df[to_take]
+    cp_df = pd.DataFrame(cp_df)
     
-    return to_take
+    return cp_df
 
 
 def k_means_cluster(df, a, b, nc):
@@ -170,7 +171,7 @@ def fill_matricies_with_smooth_data(df, col_name):
         xp = df.loc[j,'X'] 
         yp = df.loc[j,'Y']
         parda = get_close_points(df, xp, yp, radius = 2)
-        cp = parda.mean()
+        cp = parda.values.mean()
         mat[int(xp), int(yp)] = cp 
     
     return mat
@@ -198,7 +199,8 @@ def fill_matricies_with_kMeansCluster_data(df, a, b, nc):
     mat.fill(np.nan)            
     
     kml = k_means_cluster(df, a, b, nc)
-        
+
+    
     for l in tqdm(range(len(df))):
                 
         xp = df.loc[l,'X'] 
@@ -228,6 +230,7 @@ def fill_matricies_with_gmmCluster_data(df, a, b, nc):
     mat.fill(np.nan)            
     
     gmml = gmm_cluster(df, a, b, nc)
+    
     
     for l in tqdm(range(len(df))):
                 
@@ -266,6 +269,7 @@ def fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
         parda = get_close_points(df, xp, yp, radius = 2)
     
     kma_av = k_means_cluster(parda, a, b, nc)  
+    kma_av = kma_av.stack()
     
     for l in tqdm(range(len(df))):
                 
@@ -305,6 +309,7 @@ def fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
         parda = get_close_points(df, xp, yp, radius = 2)
        
     gmm_av = gmm_cluster(parda, a, b, nc)  
+    gmm_av = gmm_av.stack()  
     
     for l in tqdm(range(len(df))):
                 

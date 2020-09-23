@@ -12,7 +12,7 @@ from Functions import fill_matricies_with_original_data, fill_matricies_with_smo
 from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData, check_correct_coordinates, print_images
     
     #Example of a correct DataFrame
-data = pd.DataFrame(np.random.randint(1,100,size=(1000, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
+data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
 
     #Example of an incorrect DataFrame
 #data = pd.DataFrame(np.random.randint(-100,0,size=(100, 5)), columns=('X', 'Y','Alfa','Beta', 'Gamma'))
@@ -40,8 +40,8 @@ print_images(gmm_mat_alfa, 'GMM Alfa Results')
 
 
 
-km_av_mat_beta = fill_matricies_with_kMeansCluster_AveragedData(data, 3, 4, 3) 
-gmm_av_mat_beta = fill_matricies_with_gmmCluster_AveragedData(data, 3, 4, 3)
+km_av_mat_beta = fill_matricies_with_kMeansCluster_AveragedData(data, 3, 4, 2) 
+gmm_av_mat_beta = fill_matricies_with_gmmCluster_AveragedData(data, 3, 4, 2)
 
 print_images(km_av_mat_beta, 'K-Means Smoothed Beta Results')
 print_images(gmm_av_mat_beta, 'GMM Smoothed Beta Results') 
