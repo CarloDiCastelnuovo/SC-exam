@@ -97,7 +97,7 @@ The aim of this function is to collect the points within a radius, whose length 
 - x, y: the pixel coordinates from where the function will start to compute the distance.
 - radius: radius of my acceptance circumference
 
-It returns a dataframe cointaining the points within the radius.
+It returns a DataFrame containing neighboring points of (x,y).
 
 ### 3. k_means_cluster(df, a, b, nc)
 The function to collect the labels for K-Means clustering.
