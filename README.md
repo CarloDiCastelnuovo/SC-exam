@@ -43,11 +43,11 @@ Disadvantages:
 
 
 There are three Python files in the repository:
-- Functions: the library that contains the functions which, once imported, allow you to create the various images.
+- Functions.py: the library that contains the functions which, once imported, allow you to create the various images.
 
-- Example: the file showing how to use the library functions.
+- Example.py: the file showing how to use the library functions.
 
-- Test: the file that tests the efficiency of the library functions.
+- Test.py: the file that tests the efficiency of the library functions.
     
   # Functions.py
 
@@ -63,7 +63,7 @@ from sklearn import cluster
 from sklearn.mixture import GaussianMixture
 
 ```
-**pandas** for the DataFrames, **numpy** for mathematical operations, **matplotlib.pyplot** to show the subplots, **sklearn** for the two clusters functions and **tqdm** if we want to take trace of our cicles.
+**pandas** for the DataFrames, **numpy** for mathematical operations, **matplotlib.pyplot** to generate the subplots, **sklearn** for the two clusters functions and **tqdm** if we want to take trace of our cicles.
 
 
 ## Functions
@@ -80,7 +80,7 @@ from sklearn.mixture import GaussianMixture
     - fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc)
     - fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc)
  
-6. print_images(m, title)
+6. print_images(mat, title)
 
 
 ### 1. check_correct_coordinates(df)
@@ -160,8 +160,9 @@ Simply takes a matrix and plot it setting axis labels.
 -title: a string containing the title of the plot.
 
 # Example.py
-This file shows how to import the functions and the data to generate the images:
+This file shows how to import the functions and the data to generate the images.
 
+Here is shown how to generate two random dataframe and how to upload one. The beginning of the correct one is printed as a further demonstration.
 ```
 from Functions import fill_matricies_with_original_data, fill_matricies_with_smooth_data, fill_matricies_with_kMeansCluster_data, fill_matricies_with_gmmCluster_data
 from Functions import fill_matricies_with_kMeansCluster_AveragedData, fill_matricies_with_gmmCluster_AveragedData, check_correct_coordinates, print_images
@@ -178,7 +179,6 @@ data = pd.DataFrame(np.random.randint(1,100,size=(1000, 5)), columns=('X', 'Y','
 print(data.head())
 
 ```
-Here is shown how to generate two random dataframe and how to upload one. The beginning of the correct one is printed as a further demonstration.
 Then all the fill functions of the library are called with respective arguments, in the example the random generated dataframe is used. Every fill function works independently  on a single column, calling it by the name for the first two function 
 ```
 od_gamma = fill_matricies_with_original_data(data, 'Gamma')
@@ -220,7 +220,7 @@ df3 = pd.DataFrame(np.random.uniform(size = (100,5)), columns=('X', 'Y','Alfa','
 print("\nCorrect DataFrame shape df1: \n\n",df1.head())
 ```
 
-6 test functions are defined in this file; each of which has the goal to verify that everything works has it should:
+4 test functions are defined in this file; each of which has the goal to verify that everything works has it should:
 
 - **1. test_check_correct_coordinates():** 
 Tests that the check function of main code return True with df1 and False with df2 and df3.
@@ -229,10 +229,10 @@ Tests that the check function of main code return True with df1 and False with d
 Tests that with a build-in DataFrame the get_close_points() function collects points correctly: running the function with increasing radius will give us a larger number of "close points"
 
 - **3. test_k_means_cluster():**
-Test that a cluster label for every dataframe point is generated. Moreover tests that with different number of clusters as a parameter (nc=2, nc=4,...) the numbers that represent the labels increase.
+Tests that a cluster label for every dataframe point is generated. Moreover tests that with different number of clusters as a parameter (nc=2, nc=4,...) the numbers that represent the labels increase.
 
 - **4. test_gmm_cluster():**
-Test that a cluster label for every dataframe point is generated. Moreover tests that with different number of clusters as a parameter (nc=2, nc=4,...) the numbers that represent the labels increase.
+Tests that a cluster label for every dataframe point is generated. Moreover tests that with different number of clusters as a parameter (nc=2, nc=4,...) the numbers that represent the labels increase.
 
 If we run Test.py we can see the first 5 columns of the correct DataFrame. To perform the test we need to enter on the Python console the command line:
 ```
