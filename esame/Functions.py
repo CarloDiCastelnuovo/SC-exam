@@ -146,7 +146,7 @@ def fill_matricies_with_original_data(df, col_name):
     return mat
 
 
-def fill_matricies_with_smooth_data(df, col_name):
+def fill_matricies_with_averaged_data(df, col_name):
     
     """
     Creates an empty matrix and taking one by one position data replaces the 
@@ -267,18 +267,19 @@ def fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
         
         xp = df.loc[j,'X'] 
         yp = df.loc[j,'Y']
-        parda = get_close_points(df, xp, yp, radius = 2)    
-        cp.append(parda)
+        parda = get_close_points(df, xp, yp, radius = 2)  
+        av_data = parda.iloc[:, a:b].values.mean()
+        cp.append(av_data)
     
     cp=pd.DataFrame(cp)
-    kma_av = k_means_cluster(cp, a, b, nc)  
+    kma_av = k_means_cluster(cp, 0, 1, nc)  
     kma_av = kma_av.stack()
     
     for l in tqdm(range(len(df))):
                 
-        xp = cp.iloc[l, 0] 
-        yp = cp.iloc[l, 1]
-        mat[int(xp), int(yp)] = kma_av.iloc[0,l]      
+        xp = df.loc[l, 'X'] 
+        yp = df.loc[l, 'Y']
+        mat[int(xp), int(yp)] = kma_av.iloc[l:l+1]      
                  
     return mat
 
@@ -311,17 +312,18 @@ def fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
         xp = df.loc[j,'X'] 
         yp = df.loc[j,'Y']
         parda = get_close_points(df, xp, yp, radius = 2)
-        cp.append(parda)
+        av_data = parda.iloc[:, a:b].values.mean()
+        cp.append(av_data)
         
     cp=pd.DataFrame(cp)    
-    gmm_av = gmm_cluster(cp, a, b, nc)  
+    gmm_av = gmm_cluster(cp, 0, 1, nc)  
     gmm_av = gmm_av.stack()  
     
     for l in tqdm(range(len(df))):
                 
-        xp = cp.loc[l, 0] 
-        yp = cp.loc[l, 1]
-        mat[int(xp), int(yp)] = gmm_av.iloc[0,l]      
+        xp = df.loc[l, 'X'] 
+        yp = df.loc[l, 'Y']
+        mat[int(xp), int(yp)] = gmm_av.iloc[l:l+1]      
                  
     return mat
 
