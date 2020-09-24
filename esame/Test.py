@@ -35,6 +35,7 @@ def test_check_correct_coordinates():
     
 
 def test_get_close_points():
+    
     """
     Testing get_close_points function gives correct number of close points for ad hoc DataFrame:
     the first 3 points of dfcp (0,1)(1,0)(1,1) are within get_close_points with radius = 2 
@@ -62,8 +63,8 @@ def test_k_means_cluster():
     Testing k_means_cluster generate a cluster label for every dataframe point.
     The labels are integer number starting from 0, thus for nc = 2 we aspect labels made by 0 or 1
     for nc = 4 we aspect labels made by (0,1,2,3)
-    
     """
+     
     x = k_means_cluster(df1, 2, 3 , 2)
 
     assert len(x.stack()) == len(df1)
