@@ -74,7 +74,7 @@ from sklearn.mixture import GaussianMixture
 4. gmm_cluster(df, a, b, nc)
 5. fill_functions
     - fill_matricies_with_original_data(df, col_name)
-    - fill_matricies_with_smoother_data(df, col_name)
+    - fill_matricies_with_averaged_data(df, col_name)
     - fill_matricies_with_kMeansCluster_data(df, a, b, nc)
     - fill_matricies_with_gmmCluster_data(df,a, b, nc)
     - fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc)
@@ -117,7 +117,7 @@ The function to collect the labels for GMM clustering.
 
 It returns a list of labels ordered like the DataFrame which represents membership in one of the clusters for every single pixel
 
-### 5. fill_matricies_with_original_data(df, col_name)
+### 5. fill_matrix_with_original_data(df, col_name)
 Here we start to build the images: first of all the function creates a matrix reading the size of the images from the maximum value of the coordinate columns; then it scrolls the position data one by one by entering the respective value for each pair of points.
 
 - df: is a DataFrame like the one described above.
@@ -125,7 +125,7 @@ Here we start to build the images: first of all the function creates a matrix re
 
 It returns the filled matrix.
 
-### 6. fill_matricies_with_smoother_data(df, col_name)
+### 6. fill_matrix_with_averaged_data(df, col_name)
 Similarly to the previous function, it creates the matrix and collects data on the positions, but here for each pair the neighboring points are calculated by calling the function get_close_points(), from whose result the average value is calculated and substituted for the initial pixel.
 
 - df: is a DataFrame like the one described above.
@@ -133,8 +133,8 @@ Similarly to the previous function, it creates the matrix and collects data on t
 
 It returns the filled matrix.
 
-### 7. fill_matricies_with_kMeansCluster_data(df, a, b, nc)
-### 8. fill_matricies_with_gmmCluster_data(df, a, b, nc)
+### 7. fill_matrix_with_kMeansCluster_data(df, a, b, nc)
+### 8. fill_matrix_with_gmmCluster_data(df, a, b, nc)
 Similarly to the previous function, they create the matrix and collects data on the positions, but here these functions call the k_means_cluster() and gmm_cluster() functions to collect the cluster labels to be assigned to the respective coordinates.
 
 - df: is a DataFrame like the one described above.
@@ -143,9 +143,9 @@ Similarly to the previous function, they create the matrix and collects data on 
 
 They return the matrcies filled with labels.
 
-### 9. fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
-### 10. fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
-Similarly to the previous function, they create the matrix and collects data on the positions, but here these functions firstly call the get_close_points function to generate the dataframe containing the data to be clustered via the apposite functions.
+### 9. fill_matrix_with_kMeansCluster_AveragedData(df, a, b, nc):
+### 10. fill_matrix_with_gmmCluster_AveragedData(df, a, b, nc):
+Similarly to the previous function, they create the matrix and collect data on the positions, but here these functions first call the get_close_points function to generate the dataframe containing the data to be averaged and then group using the appropriate functions.
 
 - df: is a DataFrame like the one described above.
 - a,b: numerical indices of the column to be clustered.
@@ -153,7 +153,7 @@ Similarly to the previous function, they create the matrix and collects data on 
 
 They return the matrcies filled with labels.
 
-### 11. print_images(mat, title)
+### 11. print_image(mat, title)
 Simply takes a matrix and plot it setting axis labels.
 
 -mat: matrix to be plotted.
@@ -181,27 +181,27 @@ print(data.head())
 ```
 Then all the fill functions of the library are called with respective arguments, in the example the random generated dataframe is used. Every fill function works independently  on a single column, calling it by the name for the first two function 
 ```
-od_gamma = fill_matricies_with_original_data(data, 'Gamma')
-sd_gamma = fill_matricies_with_smooth_data(data, 'Gamma') 
+od_gamma = fill_matrix_with_original_data(data, 'Gamma')
+sd_gamma = fill_matrix_with_averaged_data(data, 'Gamma') 
     
-print_images(od_gamma, 'Gamma Values') 
-print_images(sd_gamma, 'Smoothed Gamma Values')
+print_image(od_gamma, 'Gamma Values') 
+print_image(sd_gamma, 'Smoothed Gamma Values') 
 ```
 and by the indices for the functions regarding clustering: the indices for the columns in a pandas dataframe are indicated with a couple of integer numbers starting from 0,1 for the first one; so in the case of the 'Alfa' column the indices will be 2, 3:
 ```
-km_mat_alfa = fill_matricies_with_kMeansCluster_data(data, 2, 3, 2) 
-gmm_mat_alfa = fill_matricies_with_gmmCluster_data(data, 2, 3, 2)
+km_mat_alfa = fill_matrix_with_kMeansCluster_data(data, 2, 3, 2) 
+gmm_mat_alfa = fill_matrix_with_gmmCluster_data(data, 2, 3, 2)
 
-print_images(km_mat_alfa, 'K-Means Alfa Results')     
-print_images(gmm_mat_alfa, 'GMM Alfa Results')
+print_image(km_mat_alfa, 'K-Means Alfa Results')     
+print_image(gmm_mat_alfa, 'GMM Alfa Results')
 
 
 
-km_av_mat_beta = fill_matricies_with_kMeansCluster_AveragedData(data, 3, 4, 3) 
-gmm_av_mat_beta = fill_matricies_with_gmmCluster_AveragedData(data, 3, 4, 3)
+km_av_mat_beta = fill_matrix_with_kMeansCluster_AveragedData(data, 3, 4, 3) 
+gmm_av_mat_beta = fill_matrix_with_gmmCluster_AveragedData(data, 3, 4, 3)
 
-print_images(km_av_mat_beta, 'K-Means Smoothed Beta Results')
-print_images(gmm_av_mat_beta, 'GMM Smoothed Beta Results') 
+print_image(km_av_mat_beta, 'K-Means Smoothed Beta Results')
+print_image(gmm_av_mat_beta, 'GMM Smoothed Beta Results') 
 ```
 
 
