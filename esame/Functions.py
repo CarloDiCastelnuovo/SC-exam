@@ -119,7 +119,7 @@ def gmm_cluster(df, a, b, nc):
                          
     return gmml
 
-def fill_matricies_with_original_data(df, col_name):
+def fill_matrix_with_original_data(df, col_name):
     
     """
     Creates an empty matrix and fills it taking one by one position data and parameter value.
@@ -146,7 +146,7 @@ def fill_matricies_with_original_data(df, col_name):
     return mat
 
 
-def fill_matricies_with_averaged_data(df, col_name):
+def fill_matrix_with_averaged_data(df, col_name):
     
     """
     Creates an empty matrix and taking one by one position data replaces the 
@@ -177,7 +177,7 @@ def fill_matricies_with_averaged_data(df, col_name):
     return mat
 
 
-def fill_matricies_with_kMeansCluster_data(df, a, b, nc):
+def fill_matrix_with_kMeansCluster_data(df, a, b, nc):
 
     """
     Creates an empty matrix and fills it with cluster labels 
@@ -209,7 +209,7 @@ def fill_matricies_with_kMeansCluster_data(df, a, b, nc):
                  
     return mat
 
-def fill_matricies_with_gmmCluster_data(df, a, b, nc):
+def fill_matrix_with_gmmCluster_data(df, a, b, nc):
 
     """
     Creates an empty matrix and fills it with cluster labels 
@@ -241,7 +241,7 @@ def fill_matricies_with_gmmCluster_data(df, a, b, nc):
     return mat
 
 
-def fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
+def fill_matrix_with_kMeansCluster_AveragedData(df, a, b, nc):
 
     """
     Creates an empty matrix and fills it with cluster labels returned by
@@ -284,7 +284,7 @@ def fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
     return mat
 
 
-def fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
+def fill_matrix_with_gmmCluster_AveragedData(df, a, b, nc):
     
     """
     Creates an empty matrix and fills it with cluster labels returned by
@@ -327,7 +327,7 @@ def fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
                  
     return mat
 
-def print_images(mat, title):           
+def print_image(mat, title):           
 
     """
     Generates subplot from passed matrix with the possibility to set title as an argument
