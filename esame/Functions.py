@@ -171,7 +171,7 @@ def fill_matricies_with_smooth_data(df, col_name):
         xp = df.loc[j,'X'] 
         yp = df.loc[j,'Y']
         parda = get_close_points(df, xp, yp, radius = 2)
-        cp = parda.values.mean()
+        cp = parda[col_name].values.mean()
         mat[int(xp), int(yp)] = cp 
     
     return mat
@@ -261,20 +261,23 @@ def fill_matricies_with_kMeansCluster_AveragedData(df, a, b, nc):
     mat = np.empty((max_x,max_y))
     mat.fill(np.nan)            
     
+    cp = []
     
     for j in tqdm(range(len(df))):
         
         xp = df.loc[j,'X'] 
         yp = df.loc[j,'Y']
-        parda = get_close_points(df, xp, yp, radius = 2)
+        parda = get_close_points(df, xp, yp, radius = 2)    
+        cp.append(parda)
     
-    kma_av = k_means_cluster(parda, a, b, nc)  
+    cp=pd.DataFrame(cp)
+    kma_av = k_means_cluster(cp, a, b, nc)  
     kma_av = kma_av.stack()
     
     for l in tqdm(range(len(df))):
                 
-        xp = df.loc[l,'X'] 
-        yp = df.loc[l,'Y']
+        xp = cp.iloc[l, 0] 
+        yp = cp.iloc[l, 1]
         mat[int(xp), int(yp)] = kma_av.iloc[0,l]      
                  
     return mat
@@ -301,20 +304,23 @@ def fill_matricies_with_gmmCluster_AveragedData(df, a, b, nc):
     mat = np.empty((max_x,max_y))
     mat.fill(np.nan)            
     
-    
+    cp = []
+
     for j in tqdm(range(len(df))):
         
         xp = df.loc[j,'X'] 
         yp = df.loc[j,'Y']
         parda = get_close_points(df, xp, yp, radius = 2)
-       
-    gmm_av = gmm_cluster(parda, a, b, nc)  
+        cp.append(parda)
+        
+    cp=pd.DataFrame(cp)    
+    gmm_av = gmm_cluster(cp, a, b, nc)  
     gmm_av = gmm_av.stack()  
     
     for l in tqdm(range(len(df))):
                 
-        xp = df.loc[l,'X'] 
-        yp = df.loc[l,'Y']
+        xp = cp.loc[l, 0] 
+        yp = cp.loc[l, 1]
         mat[int(xp), int(yp)] = gmm_av.iloc[0,l]      
                  
     return mat
@@ -325,7 +331,7 @@ def print_images(mat, title):
     Generates subplot from passed matrix with the possibility to set title as an argument
     
     Args:
-        m: the matrix containing the data to be plotted
+        mat: the matrix containing the data to be plotted
         title: the title of each plot
     """
     

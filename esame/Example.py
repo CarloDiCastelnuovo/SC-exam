@@ -20,7 +20,10 @@ data = pd.DataFrame(np.random.randint(1,100,size=(100, 5)), columns=('X', 'Y','A
     #Example of upload by excel file
 #data = pd.read_excel("c:/Users/Desktop/any_file_path/Example.xlsx")
 
-check_correct_coordinates(data)
+check = check_correct_coordinates(data)
+
+if check == False:
+    print("Wrong coordinates value")
 
 print(data.head())
 
