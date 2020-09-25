@@ -126,7 +126,7 @@ def fill_matrix_with_original_data(df, col_name):
     
     Args:
         df: the DataFrame to be analyzed
-        a,b: numerical indices of the column to be clustered
+        col_name: the name of the column to be displayed
     
     Return:
         mat: the filled matrix
@@ -154,7 +154,7 @@ def fill_matrix_with_averaged_data(df, col_name):
     
     Args:
         df: the DataFrame to be analyzed
-        col_name: the name of the column to be smoothered
+        col_name: the name of the column to be averaged
     
     Return:
         mat: the filled smooth matrix
